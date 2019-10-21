@@ -79,7 +79,7 @@ const create = (varName: string, type: string): iShape | void => {
     return items[varName];
 }
 
-const duplicate = (fromVarName: string, toVarName: string): iShape | void => {
+const clone = (fromVarName: string, toVarName: string): iShape | void => {
     const fromObject = getItem(fromVarName);
     if (fromObject) {
         const toObject = create(toVarName, fromObject.type);
@@ -151,22 +151,6 @@ const write = (varName, text) => {
     }
 }
 
-const setWidth = (varName: string, n: number) => {
-    const object = getItem(varName);
-    if (object) {
-        object.sizeTo(n, null);
-        return log(`Set ${varName} width to ${n}`);
-    }
-}
-
-const setHeight = (varName: string, n: number) => {
-    const object = getItem(varName);
-    if (object) {
-        object.sizeTo(null, n);
-        return log(`Set ${varName} height to ${n}`);
-    }
-}
-
 const setStroke = (varName: string, color: string, width: number) => {
     const object = getItem(varName);
     if (object) {
@@ -220,6 +204,14 @@ const reset = () => {
     withObjName = null;
 }
 
+const setWith = (varName: string) => {
+    const object = getItem(varName);
+    if (object) {
+        withObjName = varName;
+        return log(`Set currently selected object as ${varName}`);
+    }
+}
+
 const commands = {
     paint: (words) => {
         return paint(words[1], words[2]);
@@ -231,7 +223,7 @@ const commands = {
         return create(words[2], words[1]);
     },
     clone: (words) => {
-        return duplicate(words[1], words[2]);
+        return clone(words[1], words[2]);
     },
     write: (words) => {
         return write(words[1], words.slice(2));
@@ -240,10 +232,10 @@ const commands = {
         return reset();
     },
     width: (words) => {
-        return setWidth(words[1], words[2]);
+        return sizeTo(words[1], words[2], null);
     },
     height: (words) => {
-        return setHeight(words[1], words[2]);
+        return sizeTo(words[1], null, words[2]);
     },
     left: (words) => {
         return moveTo(words[1], words[2], null);
@@ -255,12 +247,7 @@ const commands = {
         return setStroke(words[1], words[2], words[3]);
     },
     with: (words) => {
-        const varName = words[1];
-        if (items[varName]) {
-            withObjName = varName;
-            return log(`Set currently selected object as ${varName}`);
-        }
-        log(`There was no object called ${varName}`);
+        return setWith(words[1]);
     },
     move: (words) => {
         return moveBy(words[1], words[2], words[3]);

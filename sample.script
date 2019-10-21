@@ -1,0 +1,33 @@
+new rectangle called background
+  width 640
+  height 480
+  paint blue
+new circle called sun
+  paint orange
+  border black 5
+  width 200
+  height 200
+new circle
+  paint yellow
+  width 100
+  height 50
+  move 400 100
+new rect called ground
+  paint green
+  border gray
+  move 0 350
+  width 1000
+  height 150
+new text called title
+  write Ansley, I love you!!!
+  paint white
+  move 100 100
+wait 1 second
+  move 120 120
+wait 1 second
+  move 140 140
+wait 1 second
+new text called melinda
+  write You too, Melinda Pie.
+  paint red
+  move 200 200

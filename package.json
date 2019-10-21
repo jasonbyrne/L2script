@@ -1,0 +1,27 @@
+{
+    "name": "l2script",
+    "version": "0.0.1",
+    "description": "Simple scripting language for creating art and animations. Designed for teaching peope to code.",
+    "files": [
+        "dist/",
+        "README.md"
+    ],
+    "main": "./dist/index.js",
+    "scripts": {
+        "start": "node dist/index.js",
+        "build": "mkdir -p dist && rm -Rf dist/* && mkdir -p dist/public && cp src/*.js dist/ && cp src/public/*.html dist/public/ && cp src/public/*.css dist/public/ && tsc && webpack",
+        "serve": "node run-script build && npm start",
+        "test": "node tests/test.js"
+    },
+    "author": "Jason Byrne <jasonbyrne662@gmail.com>",
+    "license": "MIT",
+    "keywords": [],
+    "dependencies": {
+        "express": "^4.17.1"
+    },
+    "devDependencies": {
+        "@types/node": "^12.11.1",
+        "webpack": "^4.41.2",
+        "webpack-cli": "^3.3.9"
+    }
+}

@@ -1,0 +1,53 @@
+new rectangle background
+  paint black
+  size 640 480
+new rectangle body
+  paint blue
+  outline #aaaaff 2
+  size 240 400
+  position 30 300
+new circle head
+  paint #ddaa00
+  outline white 2
+  size 200 250
+  position 50 30
+new circle leftEye
+  paint white
+  outline black
+  size 30 40
+  position 90 100
+clone leftEye rightEye
+  move 80 0
+clone leftEye leftPupil
+  paint black
+  size 12 16
+  move 9 12
+clone leftPupil rightPupil
+  move 80 0
+new circle nose
+  paint yellow
+  size 30 30
+  position 130 150
+new circle mouth
+  paint red
+  size 120 30
+  position 85 200
+new line unibrow
+  position 87 85
+  size 120 0
+  outline black 6
+new line leftArm
+  position 75 350
+  size 0 200
+  outline black 6
+duplicate leftArm rightArm
+  move 150 0
+  size 0 200
+wait 2 seconds
+move leftPupil -5 4
+move rightPupil 5 4
+wait 2 seconds
+move leftPupil 5 -4
+move rightPupil -5 -4
+
+

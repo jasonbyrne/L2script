@@ -4,7 +4,7 @@ new rectangle background
   paint blue
 new circle sun
   paint orange
-  border black 5
+  outline black 5
   width 200
   height 200
 new circle
@@ -14,7 +14,7 @@ new circle
   move 400 100
 new rect ground
   paint green
-  border gray
+  outline gray
   move 0 350
   width 1000
   height 150

@@ -252,9 +252,6 @@ const commands = {
     new: (words) => {
         return create(words[2], words[1]);
     },
-    duplicate: (words) => {
-        return duplicate(words[1], words[2]);
-    },
     clone: (words) => {
         return duplicate(words[1], words[2]);
     },
@@ -275,12 +272,6 @@ const commands = {
     },
     top: (words) => {
         return moveTo(words[1], null, words[2]);
-    },
-    border: (words) => {
-        return setStroke(words[1], words[2], words[3]);
-    },
-    stroke: (words) => {
-        return setStroke(words[1], words[2], words[3]);
     },
     outline: (words) => {
         return setStroke(words[1], words[2], words[3]);

@@ -114,3 +114,23 @@ new text
   write Hello World!
   position 10 10
 ```
+
+### Remove an item
+
+Delete an item entirely (can not be brought back)
+
+```
+new text jason
+  write Jason was here!
+wait 2 seconds
+remove jason
+```
+
+### Reset all
+
+Clear off the entire canvas, removing all items and starting fresh. Useful if you want to change scenes.
+ 
+ ```
+ reset
+ ```
+ 

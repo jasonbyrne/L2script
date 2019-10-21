@@ -6,5 +6,8 @@ const root = 'public';
 console.log(__dirname);
 app.use(express.static(`${__dirname}/public`));
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+app.listen(port, () => {
+    console.log(`L2script sample app running on port ${port}`);
+    console.log(`http://localhost:${port}/`);
+})
 

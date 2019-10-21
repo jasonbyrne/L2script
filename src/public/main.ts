@@ -66,7 +66,7 @@ const generateName = () => {
 // Commands
 const cleanCommand = (line: string) => {
     const words = line.trim().split(' ');
-    const removeWords = ['to', 'from', 'at', 'as', 'called', 'named', '=', 'is', ' '];
+    const removeWords = [' '];
     // Filter out banned words
     let out: string[] = [];
     for (let i = 0; i < words.length; i++) {
@@ -169,7 +169,7 @@ const write = (varName, text) => {
     const object = getItem(varName);
     if (object) {
         object.text = text.join(' ');
-        return log(`Wrote "${object.text}" in ${varName}`);
+        return log(`Wrote "${text}" in ${varName}`);
     }
 }
 

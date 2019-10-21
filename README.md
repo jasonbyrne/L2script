@@ -11,9 +11,9 @@ npm run-script start
 
 And then open browser to http://localhost:5000/
 
-== Commands ==
+## Commands 
 
-=== Create new object ===
+### Create new object 
 
 new $type $name
 
@@ -24,29 +24,29 @@ $name can be any unique string or can be left off and a random name will be gene
 new rectangle sky
 ```
 
-=== Set size ===
+### Set size 
 
 size $name $width $height
 
-=== Set position ===
+### Set position 
 
 position $name $x $y
 
-=== Set color ===
+### Set color 
 
 paint $name $color
 
-=== Set outline ===
+### Set outline 
 
 outline $name $color $thickness
 
-=== Clone another object ===
+### Clone another object
 
 This is useful to duplciate items to keep from typing them over and over
 
 clone $objectToCopy $newName
 
-=== Avoid typing name over and over ===
+### Avoid typing name over and over 
 
 You can use the `with` property to set the object you're talking about. Then on the next lines do a space (or multiple spaces) indent. You can skip typing the name.
 
@@ -77,7 +77,7 @@ new circle sun
    position 0 0
 ```
 
-=== Pause before continuing ===
+### Pause before continuing 
  
 Use wait to pause. Example:
 
@@ -89,13 +89,13 @@ The above pauses 500 milliseconds, but you can also specify seconds:
 
 ```
 wait 2 seconds
-````
+```
 
-=== Move something relative to its current position ===
+### Move something relative to its current position
 
 move $name 10 10
 
-=== Or change the size by a certain amount ===
+### Or change the size by a certain amount 
 
 Increase it with
 
@@ -105,3 +105,12 @@ You can also use negative numbers to shrink it
 
 grow $name -5 -5
 
+### Write text
+
+This only works for text type boxes
+
+```
+new text
+  write Hello World!
+  position 10 10
+```

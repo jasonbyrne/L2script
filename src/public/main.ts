@@ -343,9 +343,8 @@ if (lastRunCode && code) {
     code.innerText = lastRunCode;
 }
 else if (code) {
-    code.innerText += "new rectangle called background\n" +
-        "  width 640\n" +
-        "  height 480\n" +
+    code.innerText += "new rectangle background\n" +
+        "  size 640 480\n" +
         "  paint black\n";
 }
 render();

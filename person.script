@@ -40,7 +40,7 @@ new line leftArm
   position 75 350
   size 0 200
   outline black 6
-duplicate leftArm rightArm
+clone leftArm rightArm
   move 150 0
   size 0 200
 wait 2 seconds

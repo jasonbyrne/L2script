@@ -17,7 +17,7 @@ And then open browser to http://localhost:5000/
 
 new $type $name
 
-$type can be text, rectangle, circle, line
+$type can be text, rectangle, circle, line, polygon
 $name can be any unique string or can be left off and a random name will be generated, but then you won't be able to reference it later
 
 ```
@@ -31,6 +31,16 @@ size $name $width $height
 ### Set position 
 
 position $name $x $y
+
+## Set points
+
+With certain shapes, like a polygon, you want to be able to set an arbitrary number of points.
+
+```
+new polygon someRhombus
+  paint red
+  points 150,50 250,50 300,100 200,100
+```
 
 ### Set color 
 

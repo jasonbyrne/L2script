@@ -1,4 +1,4 @@
-import { iShape, Text, Circle, Rectangle, Line } from './shape';
+import { iShape, Text, Circle, Rectangle, Line, Polygon, Point } from './shape';
 import { generateName, forEachPromise } from './util';
 
 // Settings
@@ -8,11 +8,13 @@ const objectTypes: { [key: string]: (name: string) => iShape } = {
     'ellipse': Circle.create,
     'rectangle': Rectangle.create,
     'rect': Rectangle.create,
-    'line': Line.create
+    'line': Line.create,
+    'polygon': Polygon.create
 };
 const svgns: string = "http://www.w3.org/2000/svg";
 const width: number = 640;
 const height: number = 480;
+const varNamingRule: RegExp = /[A-Za-z][A-Za-z0-9_]+/;
 // Collections
 let items: { [key: string]: iShape } = {};
 let timers: NodeJS.Timeout[] = [];
@@ -30,6 +32,7 @@ output && output.appendChild(svg);
 let lastConsoleLineNumber: number = 0;
 const log = (message: string) => {
     const logItem = document.createElement('div');
+    logItem.className = `line l${lineNumber}`
     logItem.innerHTML = `
         <span class="lineNumber">${lastConsoleLineNumber == lineNumber ? '' : lineNumber}</span>
         <span class="message">${message}</span>
@@ -66,6 +69,9 @@ const create = (varName: string, type: string): iShape | void => {
     if (object) {
         return log(`There is already an object called ${varName}, you can't use the same name.`)
     }
+    if (!varNamingRule.test(varName)) {
+        return log(`Name of your object must start with a letter and contain only letters, numbers or underscore.`);
+    }
     if (!type) {
         return log(`You must set a type of object to create, like this: create text called title`);
     }
@@ -91,6 +97,7 @@ const clone = (fromVarName: string, toVarName: string): iShape | void => {
             withObjName = toVarName;
             svg.appendChild(toObject.domElement);
             log(`Duplicated ${fromVarName} as ${toVarName}`);
+            return toObject;
         }
     }
 }
@@ -171,7 +178,7 @@ const moveBy = (varName: string, x: number | null, y: number | null) => {
     const object = getItem(varName);
     if (object) {
         object.moveBy(x, y);
-        return log(`Moved ${varName} by ${object.x},${object.y}`);
+        return log(`Moved ${varName} to ${object.x},${object.y}`);
     }
 }
 
@@ -187,7 +194,20 @@ const sizeBy = (varName: string, x: number | null, y: number | null) => {
     const object = getItem(varName);
     if (object) {
         object.sizeBy(x, y);
-        return log(`Sized ${varName} by ${object.width},${object.height}`);
+        return log(`Sized ${varName} to ${object.width},${object.height}`);
+    }
+}
+
+const setPoints = (varName: string, points: string[]) => {
+    const object = getItem(varName);
+    if (object) {
+        let arrPoints: Point[] = [];
+        points.forEach((point) => {
+            const arrPoint = point.split(',');
+            arrPoints.push(new Point(Number(arrPoint[0]), Number(arrPoint[1])));
+        });
+        object.setPoints(arrPoints);
+        return log(`Set points ${varName} to ${object.width},${object.height}`);
     }
 }
 
@@ -213,55 +233,58 @@ const setWith = (varName: string) => {
 }
 
 const commands = {
-    paint: (words) => {
+    paint: (words: string[]) => {
         return paint(words[1], words[2]);
     },
-    remove: (words) => {
+    remove: (words: string[]) => {
         return remove(words[1]);
     },
-    new: (words) => {
+    new: (words: string[]) => {
         return create(words[2], words[1]);
     },
-    clone: (words) => {
+    clone: (words: string[]) => {
         return clone(words[1], words[2]);
     },
-    write: (words) => {
+    write: (words: string[]) => {
         return write(words[1], words.slice(2));
     },
     reset: () => {
         return reset();
     },
-    width: (words) => {
-        return sizeTo(words[1], words[2], null);
+    width: (words: string[]) => {
+        return sizeTo(words[1], Number(words[2]), null);
     },
-    height: (words) => {
-        return sizeTo(words[1], null, words[2]);
+    height: (words: string[]) => {
+        return sizeTo(words[1], null, Number(words[2]));
     },
-    left: (words) => {
-        return moveTo(words[1], words[2], null);
+    left: (words: string[]) => {
+        return moveTo(words[1], Number(words[2]), null);
     },
-    top: (words) => {
-        return moveTo(words[1], null, words[2]);
+    top: (words: string[]) => {
+        return moveTo(words[1], null, Number(words[2]));
     },
-    outline: (words) => {
-        return setStroke(words[1], words[2], words[3]);
+    outline: (words: string[]) => {
+        return setStroke(words[1], words[2], Number(words[3]) || 1);
     },
-    with: (words) => {
+    with: (words: string[]) => {
         return setWith(words[1]);
     },
-    move: (words) => {
-        return moveBy(words[1], words[2], words[3]);
+    move: (words: string[]) => {
+        return moveBy(words[1], Number(words[2]), Number(words[3]));
     },
-    position: (words) => {
-        return moveTo(words[1], words[2], words[3]);
+    position: (words: string[]) => {
+        return moveTo(words[1], Number(words[2]), Number(words[3]));
     },
-    size: (words) => {
-        return sizeTo(words[1], words[2], words[3]);
+    points: (words: string[]) => {
+        return setPoints(words[1], words.slice(2));
     },
-    grow: (words) => {
-        return sizeBy(words[1], words[2], words[3]);
+    size: (words: string[]) => {
+        return sizeTo(words[1], Number(words[2]), Number(words[3]));
     },
-    wait: (words) => {
+    grow: (words: string[]) => {
+        return sizeBy(words[1], Number(words[2]), Number(words[3]));
+    },
+    wait: (words: string[]) => {
         return wait(words[1], words[2]);
     }
 };

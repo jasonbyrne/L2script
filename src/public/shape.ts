@@ -76,6 +76,7 @@ export interface iShape {
     sizeBy(x: number | null, y: number | null): void;
     sizeTo(x: number | null, y: number | null): void;
     setStroke(color: string | null, width: number | null): void;
+    setPoints(points: Point[]): void;
 }
 
 abstract class Shape implements iShape {
@@ -83,9 +84,13 @@ abstract class Shape implements iShape {
     public readonly type: string;
     public readonly name: string;
     public readonly domElement: any;
-    public readonly points: Point[];
 
+    protected _points: Point[];
     protected _stroke: Stroke;
+
+    public get points(): Point[] {
+        return this._points;
+    }
 
     public get x(): number {
         return this.points[0].x;
@@ -126,9 +131,10 @@ abstract class Shape implements iShape {
     protected constructor(type: string, name: string) {
         this.type = type;
         this.name = name;
-        this.points = [new Point(0, 0), new Point(100, 100)];
+        this._points = [new Point(0, 0), new Point(100, 100)];
         this._stroke = new Stroke();
         this.domElement = document.createElementNS(svgns, this.type);
+        this.draw();
     }
 
     public remove() {
@@ -137,26 +143,22 @@ abstract class Shape implements iShape {
 
     public moveBy(x: number | null, y: number | null) {
         this.points[0].moveBy(x, y);
-        this.domElement.setAttributeNS(null, 'x', this.points[0].x);
-        this.domElement.setAttributeNS(null, 'y', this.points[0].y);
+        this.draw();
     }
 
     public moveTo(x: number | null, y: number | null) {
         this.points[0].moveTo(x, y);
-        this.domElement.setAttributeNS(null, 'x', this.points[0].x);
-        this.domElement.setAttributeNS(null, 'y', this.points[0].y);
+        this.draw();
     }
 
     public sizeBy(x: number | null, y: number | null) {
         this.points[1].moveBy(x, y);
-        this.domElement.setAttributeNS(null, 'width', this.points[1].x);
-        this.domElement.setAttributeNS(null, 'height', this.points[1].y);
+        this.draw();
     }
 
     public sizeTo(x: number | null, y: number | null) {
         this.points[1].moveTo(x, y);
-        this.domElement.setAttributeNS(null, 'width', this.points[1].x);
-        this.domElement.setAttributeNS(null, 'height', this.points[1].y);
+        this.draw();
     }
 
     public setStroke(color: string | null, width: number | null) {
@@ -166,6 +168,18 @@ abstract class Shape implements iShape {
         );
         this.domElement.setAttributeNS(null, 'stroke', this.stroke.color);
         this.domElement.setAttributeNS(null, 'stroke-width', this.stroke.width);
+    }
+    
+    public setPoints(points: Point[]) {
+        this._points = points;
+        this.draw();
+    }
+
+    protected draw() {
+        this.domElement.setAttributeNS(null, 'x', this.points[0].x);
+        this.domElement.setAttributeNS(null, 'y', this.points[0].y);
+        this.domElement.setAttributeNS(null, 'width', this.points[1].x);
+        this.domElement.setAttributeNS(null, 'height', this.points[1].y);
     }
 
 }
@@ -210,30 +224,33 @@ export class Circle extends Shape {
 
     public moveBy(x: number | null, y: number | null) {
         this.points[0].moveBy(x, y);
-        this.domElement.setAttributeNS(null, 'cx', this.points[0].x + this.radiusX);
-        this.domElement.setAttributeNS(null, 'cy', this.points[0].y + this.radiusY);
+        this.draw();
     }
 
     public moveTo(x: number | null, y: number | null) {
         this.points[0].moveTo(x, y);
-        this.domElement.setAttributeNS(null, 'cx', this.points[0].x + this.radiusX);
-        this.domElement.setAttributeNS(null, 'cy', this.points[0].y + this.radiusY);
+        this.draw();
     }
 
     public sizeBy(x: number | null, y: number | null) {
         this.points[1].moveBy(x, y);
-        this.domElement.setAttributeNS(null, 'rx', this.radiusX);
-        this.domElement.setAttributeNS(null, 'ry', this.radiusY);
+        this.draw();
     }
 
     public sizeTo(x: number | null, y: number | null) {
         this.points[1].moveTo(x, y);
-        this.domElement.setAttributeNS(null, 'rx', this.radiusX);
-        this.domElement.setAttributeNS(null, 'ry', this.radiusY);
+        this.draw();
     }
 
     constructor(name: string) {
         super('ellipse', name);
+    }
+
+    protected draw() {
+        this.domElement.setAttributeNS(null, 'cx', this.points[0].x + this.radiusX);
+        this.domElement.setAttributeNS(null, 'cy', this.points[0].y + this.radiusY);
+        this.domElement.setAttributeNS(null, 'rx', this.radiusX);
+        this.domElement.setAttributeNS(null, 'ry', this.radiusY);
     }
 
 }
@@ -258,26 +275,89 @@ export class Line extends Shape {
 
     public moveBy(x: number | null, y: number | null) {
         this.points[0].moveBy(x, y);
-        this.domElement.setAttributeNS(null, 'x1', this.points[0].x);
-        this.domElement.setAttributeNS(null, 'y1', this.points[0].y);
+        this.draw();
     }
 
     public moveTo(x: number | null, y: number | null) {
         this.points[0].moveTo(x, y);
-        this.domElement.setAttributeNS(null, 'x1', x);
-        this.domElement.setAttributeNS(null, 'y1', y);
+        this.draw();
     }
 
     public sizeBy(x: number | null, y: number | null) {
         this.points[1].moveBy(x, y);
-        this.domElement.setAttributeNS(null, 'x2', this.points[0].x + this.points[1].x);
-        this.domElement.setAttributeNS(null, 'y2', this.points[0].y + this.points[1].y);
+        this.draw();
     }
 
     public sizeTo(x: number | null, y: number | null) {
         this.points[1].moveTo(x, y);
+        this.draw();
+    }
+
+    protected draw() {
+        this.domElement.setAttributeNS(null, 'x1', this.points[0].x);
+        this.domElement.setAttributeNS(null, 'y1', this.points[0].y);
         this.domElement.setAttributeNS(null, 'x2', this.points[0].x + this.points[1].x);
         this.domElement.setAttributeNS(null, 'y2', this.points[0].y + this.points[1].y);
+    }
+
+}
+
+
+export class Polygon extends Shape {
+
+    public static create(name: string) {
+        return new Polygon(name);
+    }
+
+    public get width(): number {
+        return this.points[1].x;
+    }
+
+    public get height(): number {
+        return this.points[1].y;
+    }
+
+    public get fill(): string {
+        return this.domElement.getAttributeNS(null, 'fill');
+    }
+
+    public set fill(value: string) {
+        this.domElement.setAttributeNS(null, 'fill', value);
+    }
+
+    constructor(name: string) {
+        super('polygon', name);
+        this._points = [
+            new Point(0, 0), new Point(100, 0), new Point(150, 100), new Point(50, 100)
+        ];
+        this.draw();
+    }
+
+    public moveBy(x: number | null, y: number | null) {
+        this.points.forEach((point) => {
+            point.moveBy(x, y);
+        });
+        this.draw();
+    }
+
+    public moveTo(x: number | null, y: number | null) {
+        const prevPoints: [number, number] = this.points[0].toTuple();
+        this.points[0].moveTo(x, y);
+        const diffPoints: [number, number] = [
+            this.points[0].x - prevPoints[0],
+            this.points[0].y - prevPoints[1]
+        ];
+        this.points.forEach((point, i) => {
+            // Don't move the first point again
+            if (i > 0) {
+                point.moveBy(diffPoints[0], diffPoints[1]);
+            }
+        })
+        this.draw();
+    }
+
+    protected draw() {
+        this.domElement.setAttributeNS(null, 'points', this._points.map(point => point.toString()).join(' '));
     }
 
 }

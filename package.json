@@ -1,7 +1,7 @@
 {
     "name": "l2script",
     "version": "0.0.1",
-    "description": "Simple scripting language for creating art and animations. Designed for teaching peope to code.",
+    "description": "Simple scripting language for creating art and animations. Designed for teaching people to code.",
     "files": [
         "dist/",
         "README.md"

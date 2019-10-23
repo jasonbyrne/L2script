@@ -10,8 +10,10 @@
     "scripts": {
         "start": "node dist/index.js",
         "build": "mkdir -p dist && rm -Rf dist/* && mkdir -p dist/public && cp src/*.js dist/ && cp src/public/*.html dist/public/ && cp src/public/*.css dist/public/ && tsc && webpack",
-        "serve": "node run-script build && npm start",
-        "test": "node tests/test.js"
+        "serve": "npm run-script build && npm start",
+        "test": "node tests/test.js",
+        "tsc": "./node_modules/.bin/tsc",
+        "webpack": "./node_modules/.bin/webpack"
     },
     "author": "Jason Byrne <jasonbyrne662@gmail.com>",
     "license": "MIT",

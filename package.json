@@ -21,6 +21,7 @@
     },
     "devDependencies": {
         "@types/node": "^12.11.1",
+        "typescript": "^3.6.4",
         "webpack": "^4.41.2",
         "webpack-cli": "^3.3.9"
     }

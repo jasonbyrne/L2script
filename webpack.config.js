@@ -14,7 +14,7 @@ module.exports = {
                 // NOTE(jpr): this is hacky but we need to move to get rid of
                 // index.js before we get rid of this
                 transformPath(targetPath, _) {
-                    return targetPath.replace(/^public\/app\/public\//i, 'public/');
+                    return targetPath.replace(/^public\/app\//i, '');
                 },
             },
         ]),

@@ -9,7 +9,8 @@
     "main": "./dist/index.js",
     "scripts": {
         "start": "node dist/index.js",
-        "build": "mkdir -p dist && rm -Rf dist/* && mkdir -p dist/public && cp src/*.js dist/ && cp src/public/*.html dist/public/ && cp src/public/*.css dist/public/ && tsc && webpack",
+        "build": "rm -rf dist/* && webpack --config webpack.config.js --mode development",
+        "build:prod": "rm -rf dist/* && webpack --config webpack.config.js --mode production",
         "serve": "npm run-script build && npm start",
         "test": "node tests/test.js",
         "tsc": "./node_modules/.bin/tsc",

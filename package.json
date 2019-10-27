@@ -9,7 +9,7 @@
     "main": "./dist/index.js",
     "scripts": {
         "start": "node dist/index.js",
-        "build": "mkdir -p dist && rm -Rf dist/* && mkdir -p dist/public && cp src/*.js dist/ && cp src/public/*.html dist/public/ && cp src/public/*.css dist/public/ && tsc && webpack",
+        "build": "mkdir -p dist && rm -Rf dist/* && mkdir -p dist/public && cp src/*.js dist/ && cp src/public/*.html dist/public/ && cp src/public/*.svg dist/public/ && cp src/public/*.css dist/public/ && tsc && webpack",
         "serve": "node run-script build && npm start",
         "test": "node tests/test.js"
     },

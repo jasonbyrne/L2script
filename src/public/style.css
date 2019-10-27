@@ -2,10 +2,10 @@
 #source {
     display: block;
     position: fixed;
-    width: 48%;
     left: 0px;
     top: 0px;
-    bottom: 100px;
+    right: 660px;
+    height: 500px;
     background: #555;
     color: #fff;
 }
@@ -43,10 +43,36 @@
 #output {
     display: block;
     position: fixed;
-    top: 2%;
-    right: 2%;
-    bottom: 100;
-    width: 48%;
+    top: 0px;
+    right: 0px;
+    width: 660px;
+    height: 500px;
+}
+
+#output svg.canvas {
+    width: 640px;
+    height: 480px;
+    position: absolute;
+    top: 20px;
+    right: 0;
+}
+
+.ruler {
+    position: absolute; 
+    left: 0;
+    height: 20px;
+    width: 660px;
+}
+
+#xRuler {
+    top: 0;
+    transform: translate(20px, 0px);
+}
+
+#yRuler {
+    top: 480px;
+    left: -640px;
+    transform: rotate(90deg) translate(-140px, -320px);
 }
 
 #console {
@@ -54,7 +80,7 @@
     position: fixed;
     right: 0;
     bottom: 0;
-    height: 100px;
+    top: 500px;
     width: 100%;
     border-top: ridge 4px #111;
     background: #bbb;

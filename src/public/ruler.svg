@@ -1,0 +1,223 @@
+<svg id="xRuler" class="ruler" xmlns="http://www.w3.org/2000/svg">
+	<style>
+		.tick {
+			y: 0px;
+			width: 1px;
+			height: 5px;
+			fill: black;
+		}
+		.tick.twentyfives {
+			height: 8px;
+		}
+		.tick.fifties {
+			height: 12px;
+		}
+		.tick.hundreds {
+			height: 12px;
+		}
+		.text {
+			y: 10px;
+			fill: black;
+			font-size: 10px;
+			font-family: sans-serif;
+			line-height: 10px;
+		}
+	</style>
+
+	<rect class="tick fives" x="0"></rect>
+	<rect class="tick fives" x="5"></rect>
+	<rect class="tick fives" x="10"></rect>
+	<rect class="tick fives" x="15"></rect>
+	<rect class="tick fives" x="20"></rect>
+	<rect class="tick fives" x="25"></rect>
+	<rect class="tick fives" x="30"></rect>
+	<rect class="tick fives" x="35"></rect>
+	<rect class="tick fives" x="40"></rect>
+	<rect class="tick fives" x="45"></rect>
+	<rect class="tick fives" x="50"></rect>
+	<rect class="tick fives" x="55"></rect>
+	<rect class="tick fives" x="60"></rect>
+	<rect class="tick fives" x="65"></rect>
+	<rect class="tick fives" x="70"></rect>
+	<rect class="tick fives" x="75"></rect>
+	<rect class="tick fives" x="80"></rect>
+	<rect class="tick fives" x="85"></rect>
+	<rect class="tick fives" x="90"></rect>
+	<rect class="tick fives" x="95"></rect>
+	<rect class="tick fives" x="100"></rect>
+	<rect class="tick fives" x="105"></rect>
+	<rect class="tick fives" x="110"></rect>
+	<rect class="tick fives" x="115"></rect>
+	<rect class="tick fives" x="120"></rect>
+	<rect class="tick fives" x="125"></rect>
+	<rect class="tick fives" x="130"></rect>
+	<rect class="tick fives" x="135"></rect>
+	<rect class="tick fives" x="140"></rect>
+	<rect class="tick fives" x="145"></rect>
+	<rect class="tick fives" x="150"></rect>
+	<rect class="tick fives" x="155"></rect>
+	<rect class="tick fives" x="160"></rect>
+	<rect class="tick fives" x="165"></rect>
+	<rect class="tick fives" x="170"></rect>
+	<rect class="tick fives" x="175"></rect>
+	<rect class="tick fives" x="180"></rect>
+	<rect class="tick fives" x="185"></rect>
+	<rect class="tick fives" x="190"></rect>
+	<rect class="tick fives" x="195"></rect>
+	<rect class="tick fives" x="200"></rect>
+	<rect class="tick fives" x="205"></rect>
+	<rect class="tick fives" x="210"></rect>
+	<rect class="tick fives" x="215"></rect>
+	<rect class="tick fives" x="220"></rect>
+	<rect class="tick fives" x="225"></rect>
+	<rect class="tick fives" x="230"></rect>
+	<rect class="tick fives" x="235"></rect>
+	<rect class="tick fives" x="240"></rect>
+	<rect class="tick fives" x="245"></rect>
+	<rect class="tick fives" x="250"></rect>
+	<rect class="tick fives" x="255"></rect>
+	<rect class="tick fives" x="260"></rect>
+	<rect class="tick fives" x="265"></rect>
+	<rect class="tick fives" x="270"></rect>
+	<rect class="tick fives" x="275"></rect>
+	<rect class="tick fives" x="280"></rect>
+	<rect class="tick fives" x="285"></rect>
+	<rect class="tick fives" x="290"></rect>
+	<rect class="tick fives" x="295"></rect>
+	<rect class="tick fives" x="300"></rect>
+	<rect class="tick fives" x="305"></rect>
+	<rect class="tick fives" x="310"></rect>
+	<rect class="tick fives" x="315"></rect>
+	<rect class="tick fives" x="320"></rect>
+	<rect class="tick fives" x="325"></rect>
+	<rect class="tick fives" x="330"></rect>
+	<rect class="tick fives" x="335"></rect>
+	<rect class="tick fives" x="340"></rect>
+	<rect class="tick fives" x="345"></rect>
+	<rect class="tick fives" x="350"></rect>
+	<rect class="tick fives" x="355"></rect>
+	<rect class="tick fives" x="360"></rect>
+	<rect class="tick fives" x="365"></rect>
+	<rect class="tick fives" x="370"></rect>
+	<rect class="tick fives" x="375"></rect>
+	<rect class="tick fives" x="380"></rect>
+	<rect class="tick fives" x="385"></rect>
+	<rect class="tick fives" x="390"></rect>
+	<rect class="tick fives" x="395"></rect>
+	<rect class="tick fives" x="400"></rect>
+	<rect class="tick fives" x="405"></rect>
+	<rect class="tick fives" x="410"></rect>
+	<rect class="tick fives" x="415"></rect>
+	<rect class="tick fives" x="420"></rect>
+	<rect class="tick fives" x="425"></rect>
+	<rect class="tick fives" x="430"></rect>
+	<rect class="tick fives" x="435"></rect>
+	<rect class="tick fives" x="440"></rect>
+	<rect class="tick fives" x="445"></rect>
+	<rect class="tick fives" x="450"></rect>
+	<rect class="tick fives" x="455"></rect>
+	<rect class="tick fives" x="460"></rect>
+	<rect class="tick fives" x="465"></rect>
+	<rect class="tick fives" x="470"></rect>
+	<rect class="tick fives" x="475"></rect>
+	<rect class="tick fives" x="480"></rect>
+	<rect class="tick fives" x="485"></rect>
+	<rect class="tick fives" x="490"></rect>
+	<rect class="tick fives" x="495"></rect>
+	<rect class="tick fives" x="500"></rect>
+	<rect class="tick fives" x="505"></rect>
+	<rect class="tick fives" x="510"></rect>
+	<rect class="tick fives" x="515"></rect>
+	<rect class="tick fives" x="520"></rect>
+	<rect class="tick fives" x="525"></rect>
+	<rect class="tick fives" x="530"></rect>
+	<rect class="tick fives" x="535"></rect>
+	<rect class="tick fives" x="540"></rect>
+	<rect class="tick fives" x="545"></rect>
+	<rect class="tick fives" x="550"></rect>
+	<rect class="tick fives" x="555"></rect>
+	<rect class="tick fives" x="560"></rect>
+	<rect class="tick fives" x="565"></rect>
+	<rect class="tick fives" x="570"></rect>
+	<rect class="tick fives" x="575"></rect>
+	<rect class="tick fives" x="580"></rect>
+	<rect class="tick fives" x="585"></rect>
+	<rect class="tick fives" x="590"></rect>
+	<rect class="tick fives" x="595"></rect>
+	<rect class="tick fives" x="600"></rect>
+	<rect class="tick fives" x="605"></rect>
+	<rect class="tick fives" x="610"></rect>
+	<rect class="tick fives" x="615"></rect>
+	<rect class="tick fives" x="620"></rect>
+	<rect class="tick fives" x="625"></rect>
+	<rect class="tick fives" x="630"></rect>
+	<rect class="tick fives" x="635"></rect>
+	<rect class="tick fives" x="640"></rect>
+
+
+	<rect class="tick twentyfives" x="0"></rect>
+	<rect class="tick twentyfives" x="25"></rect>
+	<rect class="tick twentyfives" x="50"></rect>
+	<rect class="tick twentyfives" x="75"></rect>
+	<rect class="tick twentyfives" x="100"></rect>
+	<rect class="tick twentyfives" x="125"></rect>
+	<rect class="tick twentyfives" x="150"></rect>
+	<rect class="tick twentyfives" x="175"></rect>
+	<rect class="tick twentyfives" x="200"></rect>
+	<rect class="tick twentyfives" x="225"></rect>
+	<rect class="tick twentyfives" x="250"></rect>
+	<rect class="tick twentyfives" x="275"></rect>
+	<rect class="tick twentyfives" x="300"></rect>
+	<rect class="tick twentyfives" x="325"></rect>
+	<rect class="tick twentyfives" x="350"></rect>
+	<rect class="tick twentyfives" x="375"></rect>
+	<rect class="tick twentyfives" x="400"></rect>
+	<rect class="tick twentyfives" x="425"></rect>
+	<rect class="tick twentyfives" x="450"></rect>
+	<rect class="tick twentyfives" x="475"></rect>
+	<rect class="tick twentyfives" x="500"></rect>
+	<rect class="tick twentyfives" x="525"></rect>
+	<rect class="tick twentyfives" x="550"></rect>
+	<rect class="tick twentyfives" x="575"></rect>
+	<rect class="tick twentyfives" x="600"></rect>
+	<rect class="tick twentyfives" x="625"></rect>
+
+	<rect class="tick fifties" x="0"></rect>
+	<rect class="tick fifties" x="50"></rect>
+	<rect class="tick fifties" x="100"></rect>
+	<rect class="tick fifties" x="150"></rect>
+	<rect class="tick fifties" x="200"></rect>
+	<rect class="tick fifties" x="250"></rect>
+	<rect class="tick fifties" x="300"></rect>
+	<rect class="tick fifties" x="350"></rect>
+	<rect class="tick fifties" x="400"></rect>
+	<rect class="tick fifties" x="450"></rect>
+	<rect class="tick fifties" x="500"></rect>
+	<rect class="tick fifties" x="550"></rect>
+	<rect class="tick fifties" x="600"></rect>
+
+	<rect class="tick hundreds" x="0"></rect>
+	<rect class="tick hundreds" x="100"></rect>
+	<rect class="tick hundreds" x="200"></rect>
+	<rect class="tick hundreds" x="300"></rect>
+	<rect class="tick hundreds" x="400"></rect>
+	<rect class="tick hundreds" x="500"></rect>
+	<rect class="tick hundreds" x="600"></rect>
+
+	<text class="text hundreds" x="0" y="20">0</text>
+	<text class="text hundreds" x="100" y="20">100</text>
+	<text class="text hundreds" x="200" y="20">200</text>
+	<text class="text hundreds" x="300" y="20">300</text>
+	<text class="text hundreds" x="400" y="20">400</text>
+	<text class="text hundreds" x="500" y="20">500</text>
+	<text class="text hundreds" x="600" y="20">600</text>
+
+	<text class="text fifties" x="50" y="20">50</text>
+	<text class="text fifties" x="150" y="20">150</text>
+	<text class="text fifties" x="250" y="20">250</text>
+	<text class="text fifties" x="350" y="20">350</text>
+	<text class="text fifties" x="450" y="20">450</text>
+	<text class="text fifties" x="550" y="20">550</text>
+
+
+</svg>

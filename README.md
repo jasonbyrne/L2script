@@ -15,7 +15,7 @@ And then open browser to http://localhost:5000/
 
 ### Create new object 
 
-new $type $name
+new $type as $name
 
 $type can be text, rectangle, circle, line, polygon
 $name can be any unique string or can be left off and a random name will be generated, but then you won't be able to reference it later
@@ -26,11 +26,11 @@ new rectangle sky
 
 ### Set size 
 
-size $name $width $height
+size $name to $width,$height
 
 ### Set position 
 
-position $name $x $y
+move $name to $x,$y
 
 ## Set points
 
@@ -54,7 +54,7 @@ outline $name $color $thickness
 
 This is useful to duplciate items to keep from typing them over and over
 
-clone $objectToCopy $newName
+clone $objectToCopy as $newName
 
 ### Avoid typing name over and over 
 
@@ -65,8 +65,8 @@ Example:
 ```
 with sky
   paint blue
-  size 640 300
-  position 0 0
+  size to 640,300
+  move to 0,0
 ```
 
 You can also do this without using the `with` property if you refer to that object in the previous line, again using the space indent.
@@ -75,16 +75,16 @@ Example:
 
 ```
 paint sky blue
-   size 640 300
+   size to 640,300
 ```
 
 Or:
 
 ```
-new circle sun
+new circle as sun
    paint orange
-   size 100 100
-   position 0 0
+   size to 100,100
+   move to 0,0
 ```
 
 ### Pause before continuing 
@@ -103,26 +103,26 @@ wait 2 seconds
 
 ### Move something relative to its current position
 
-move $name 10 10
+move $name by 10,10
 
 ### Or change the size by a certain amount 
 
 Increase it with
 
-grow $name 10 5
+size $name by 10,5
 
 You can also use negative numbers to shrink it
 
-grow $name -5 -5
+size $name by -5,-5
 
 ### Write text
 
 This only works for text type boxes
 
 ```
-new text
+new text as hello
   write Hello World!
-  position 10 10
+  move to 10,10
 ```
 
 ### Remove an item
@@ -130,7 +130,7 @@ new text
 Delete an item entirely (can not be brought back)
 
 ```
-new text jason
+new text as jason
   write Jason was here!
 wait 2 seconds
 remove jason

@@ -18,7 +18,6 @@ canvas.onInfo(message => {
     log(message);
 });
 
-
 // Console line
 let lastConsoleLineNumber: number = 0;
 const log = (message: string) => {
@@ -54,65 +53,200 @@ const cleanCommand = (line: string) => {
     return out;
 }
 
-const commands = {
-    paint: (words: string[]) => {
-        return canvas.paint(words[1], words[2]);
+interface iLanguagePattern {
+    pattern: RegExp
+    action: Function
+}
+
+const languagePatterns: iLanguagePattern[] = [
+    {
+        pattern: /^reset$/i,
+        action: canvas.reset
     },
-    remove: (words: string[]) => {
-        return canvas.remove(words[1]);
+    {
+        pattern: /^wait ([0-9]+)$/i,
+        action: (timeout: number) => { return canvas.wait(timeout); }
     },
-    new: (words: string[]) => {
-        return canvas.createItem(words[2], words[1]);
+    {
+        pattern: /^wait ([0-9]+) ([a-z]+)$/i,
+        action: (timeout: number, units: string) => { return canvas.wait(timeout, units); }
     },
-    print: (words: string[]) => {
-        return canvas.print(words[1], words[2]);
+    {
+        pattern: /^new ([a-z]+) ([a-z][a-z0-9]*)$/i,
+        action: (type: string, name: string) => { canvas.createItem(name, type); }
     },
-    clone: (words: string[]) => {
-        return canvas.clone(words[1], words[2]);
+    {
+        pattern: /^new ([a-z]+)$/i,
+        action: (type: string) => { canvas.createItem(null, type); }
     },
-    write: (words: string[]) => {
-        return canvas.write(words[1], words.slice(2).join(' '));
+    {
+        pattern: /^clone ([a-z]+) ([a-z][a-z0-9]*)$/i,
+        action: (fromName: string, toName: string) => { canvas.clone(fromName, toName); }
     },
-    reset: () => {
-        return canvas.reset();
+    {
+        pattern: /^with ([a-z][a-z0-9]*)$/i,
+        action: (name: string) => { canvas.setWith(name); }
     },
-    width: (words: string[]) => {
-        return canvas.sizeTo(words[1], Number(words[2]), null);
+    {
+        pattern: /^remove ([a-z][a-z0-9]*)$/i,
+        action: (name: string) => { canvas.remove(name); }
     },
-    height: (words: string[]) => {
-        return canvas.sizeTo(words[1], null, Number(words[2]));
+    {
+        pattern: /^move ([a-z][a-z0-9]*) (-?[0-9]+),(-?[0-9]+)$/i,
+        action: (name: string, x: number, y: number) => { canvas.moveBy(name, x, y); }
     },
-    left: (words: string[]) => {
-        return canvas.moveTo(words[1], Number(words[2]), null);
+    {
+        pattern: /^move ([a-z][a-z0-9]*) (-?[0-9]+)$/i,
+        action: (name: string, x: number) => { canvas.moveBy(name, x, null); }
     },
-    top: (words: string[]) => {
-        return canvas.moveTo(words[1], null, Number(words[2]));
+    {
+        pattern: /^move ([a-z][a-z0-9]*) ,(-?[0-9]+)$/i,
+        action: (name: string, y: number) => { canvas.moveBy(name, null, y); }
     },
-    outline: (words: string[]) => {
-        return canvas.setStroke(words[1], words[2], Number(words[3]) || 1);
+    {
+        pattern: /^position ([a-z][a-z0-9]*) (-?[0-9]+),(-?[0-9]+)$/i,
+        action: (name: string, x: number, y: number) => { canvas.moveTo(name, x, y); }
     },
-    with: (words: string[]) => {
-        return canvas.setWith(words[1]);
+    {
+        pattern: /^position ([a-z][a-z0-9]*) (-?[0-9]+)$/i,
+        action: (name: string, x: number) => { canvas.moveTo(name, x, null); }
     },
-    move: (words: string[]) => {
-        return canvas.moveBy(words[1], Number(words[2]), Number(words[3]));
+    {
+        pattern: /^position ([a-z][a-z0-9]*) ,(-?[0-9]+)$/i,
+        action: (name: string, y: number) => { canvas.moveTo(name, null, y); }
     },
-    position: (words: string[]) => {
-        return canvas.moveTo(words[1], Number(words[2]), Number(words[3]));
+    {
+        pattern: /^size ([a-z][a-z0-9]*) (-?[0-9]+),(-?[0-9]+)$/i,
+        action: (name: string, x: number, y: number) => { canvas.sizeTo(name, x, y); }
     },
-    points: (words: string[]) => {
-        return canvas.setPoints(words[1], words.slice(2));
+    {
+        pattern: /^size ([a-z][a-z0-9]*) (-?[0-9]+)$/i,
+        action: (name: string, x: number) => { canvas.sizeTo(name, x, null); }
     },
-    size: (words: string[]) => {
-        return canvas.sizeTo(words[1], Number(words[2]), Number(words[3]));
+    {
+        pattern: /^size ([a-z][a-z0-9]*) ,(-?[0-9]+)$/i,
+        action: (name: string, y: number) => { canvas.sizeTo(name, null, y); }
     },
-    grow: (words: string[]) => {
-        return canvas.sizeBy(words[1], Number(words[2]), Number(words[3]));
+    {
+        pattern: /^grow ([a-z][a-z0-9]*) (-?[0-9]+),(-?[0-9]+)$/i,
+        action: (name: string, x: number, y: number) => { canvas.sizeBy(name, x, y); }
     },
-    wait: (words: string[]) => {
-        return canvas.wait(Number(words[1]), words[2]);
+    {
+        pattern: /^grow ([a-z][a-z0-9]*) (-?[0-9]+)$/i,
+        action: (name: string, x: number) => { canvas.sizeBy(name, x, null); }
+    },
+    {
+        pattern: /^grow ([a-z][a-z0-9]*) ,(-?[0-9]+)$/i,
+        action: (name: string, y: number) => { canvas.sizeBy(name, null, y); }
+    },
+    {
+        pattern: /^paint ([a-z][a-z0-9]*) ([a-z]+)$/i,
+        action: (name: string, color: string) => { canvas.paint(name, color); }
+    },
+    {
+        pattern: /^paint ([a-z][a-z0-9]*) (#[0-9a-f]{3,9})$/i,
+        action: (name: string, color: string) => { canvas.paint(name, color); }
+    },
+    {
+        pattern: /^outline ([a-z][a-z0-9]*) ([a-z]+) ([0-9]+)$/i,
+        action: (name: string, color: string, thickness: number) => { canvas.setStroke(name, color, thickness); }
+    },
+    {
+        pattern: /^outline ([a-z][a-z0-9]*) ([a-z]+)$/i,
+        action: (name: string, color: string) => { canvas.setStroke(name, color, null); }
+    },
+    {
+        pattern: /^write ([a-z][a-z0-9]*) (.+)$/i,
+        action: (name: string, str: string) => { canvas.write(name, str); }
+    },
+    {
+        pattern: /^points ([a-z][a-z0-9]*) ([-0-9, ]+)$/i,
+        action: (name: string, points: string) => {
+            // this is not ideal
+            canvas.setPoints(name, points.split(' '))
+        }
+    },
+    {
+        pattern: /^  clone ([a-z][a-z0-9]*)$/i,
+        action: (toName: string) => { canvas.clone(null, toName); }
+    },
+    {
+        pattern: /^  paint ([a-z]+)$/i,
+        action:  (color: string) => { canvas.paint(null, color); }
+    },
+    {
+        pattern: /^  paint (#[0-9a-f]{3,9})$/i,
+        action: (color: string) => { canvas.paint(null, color); }
+    },
+    {
+        pattern: /^  outline ([a-z]+) ([0-9]+)$/i,
+        action: (color: string, thickness: number) => { canvas.setStroke(null, color, thickness); }
+    },
+    {
+        pattern: /^  outline ([a-z]+)$/i,
+        action: (color: string) => { canvas.setStroke(null, color, null); }
+    },
+    {
+        pattern: /^  size ([0-9]+),([0-9]+)$/i,
+        action: (width: number, height: number) => { canvas.sizeTo(null, width, height); }
+    },
+    {
+        pattern: /^  size ([0-9]+)$/i,
+        action: (width: number) => { canvas.sizeTo(null, width, null); }
+    },
+    {
+        pattern: /^  size ,([0-9]+)$/i,
+        action: (height: number) => { canvas.sizeTo(null, null, height); }
+    },
+    {
+        pattern: /^  position (-?[0-9]+),(-?[0-9]+)$/i,
+        action: (x: number, y: number) => { canvas.moveTo(null, x, y); }
+    },
+    {
+        pattern: /^  position (-?[0-9]+)$/i,
+        action: (x: number) => { canvas.moveTo(null, x, null); }
+    },
+    {
+        pattern: /^  position ,(-?[0-9]+)$/i,
+        action: (y: number) => { canvas.moveTo(null, null, y); }
+    },
+    {
+        pattern: /^  move (-?[0-9]+),(-?[0-9]+)$/i,
+        action: (x: number, y: number) => { canvas.moveBy(null, x, y); }
+    },
+    {
+        pattern: /^  move (-?[0-9]+)$/i,
+        action: (x: number) => { canvas.moveBy(null, x, null); }
+    },
+    {
+        pattern: /^  move ,(-?[0-9]+)$/i,
+        action: (y: number) => { canvas.moveBy(null, null, y); }
+    },
+    {
+        pattern: /^  grow (-?[0-9]+),(-?[0-9]+)$/i,
+        action: (x: number, y: number) => { canvas.sizeBy(null, x, y); }
+    },
+    {
+        pattern: /^  grow (-?[0-9]+)$/i,
+        action: (x: number) => { canvas.sizeBy(null, x, null); }
+    },
+    {
+        pattern: /^  grow ,(-?[0-9]+)$/i,
+        action: (y: number) => { canvas.sizeBy(null, null, y); }
+    },
+    {
+        pattern: /^  write (.+)$/i,
+        action: (str: string) => { canvas.write(null, str); }
+    },
+    {
+        pattern: /^  points ([-0-9, ]+)$/i,
+        action: (points: string) => {
+            // this is not ideal
+            canvas.setPoints(null, points.split(' '))
+        }
     }
-};
+];
+
 
 // Render it
 let lineNumber: number = 0;
@@ -128,19 +262,25 @@ const render = () => {
         lineNumber += 1;
         // Ignore blank lines
         if (line.length) {
+            // Clean line
+            line = line.replace(/\s/g, ' ');
+            line = line.trimEnd();
             // Echo line
             log(line);
-            // Parse it
-            let words = cleanCommand(line);
-            // Get command
-            const action = words[0] == ' ' ? words[1] : words[0];
-            const command = commands[action];
-            // Execute command
-            if (command) {
-                //console.log(words);
-                return command(words);
+            // Parse from regular expressions
+            let thisPromise = null;
+            const isValidCommand: boolean = languagePatterns.some(lang => {
+                const matches = line.match(lang.pattern);
+                if (matches !== null) {
+                    thisPromise = lang.action.apply(canvas, matches.slice(1));
+                    return true;
+                }
+                return false;
+            });
+            if (!isValidCommand) {
+                log(`Invalid command: ${line}`);
             }
-            log(`Invalid command: ${action}`);
+            return thisPromise;
         }
     });
     // Save content

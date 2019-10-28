@@ -2,7 +2,7 @@ import { iShape, Text, Circle, Rectangle, Line, Polygon, Point } from './shape';
 import { generateName, forEachPromise } from './util';
 
 const svgns: string = "http://www.w3.org/2000/svg";
-const varNamingRule: RegExp = /[A-Za-z][A-Za-z0-9_]+/;
+const varNamingRule: RegExp = /[A-Za-z][A-Za-z0-9]+/;
 const objectTypes: { [key: string]: (name: string) => iShape } = {
     'text': Text.create,
     'circle': Circle.create,
@@ -17,6 +17,7 @@ const objectTypes: { [key: string]: (name: string) => iShape } = {
 export class Canvas {
 
     protected _svg: Element;
+    protected _variables: { [key: string]: any } = {};
     protected _items: { [key: string]: iShape } = {};
     protected _timers: NodeJS.Timeout[] = [];
     protected _errorListeners: ((message: string) => void)[] = [];
@@ -42,6 +43,18 @@ export class Canvas {
         return this._svg;
     }
 
+    public setVariable(varName: string, value: any) {
+        if (!varNamingRule.test(varName)) {
+            return this._publishError(`Name of your variable must start with a letter and contain only letters or numbers.`);
+        }
+        this._variables[varName] = value;
+        this._publishInfo(`Set variable ${varName} to ${String(value)}`);
+    }
+
+    public getVariable(varName: string): any {
+        return this._variables[varName] || null;
+    }
+
     public getItem(varName: string): iShape | null {
         const item = this._items[varName];
         if (item) {
@@ -50,16 +63,16 @@ export class Canvas {
         return this._publishError(`There was no object called ${varName}.`)
     }
 
-    public createItem(varName: string, type: string): iShape | null {
+    public createItem(varName: string | null, type: string): iShape | null {
         varName = varName || generateName();
         if (this._items[varName]) {
             return this._publishError(`There is already an object called ${varName}, you can't use the same name.`)
         }
         if (!varNamingRule.test(varName)) {
-            return this._publishError(`Name of your object must start with a letter and contain only letters, numbers or underscore.`);
+            return this._publishError(`Name of your object must start with a letter and contain only letters or numbers.`);
         }
         if (!type) {
-            return this._publishError(`You must set a type of object to create, like this: create text called title`);
+            return this._publishError(`You must set a type of object to create, like this: new text title`);
         }
         if (!objectTypes[type]) {
             return this._publishError(`${type} not a valid object type, must be one of these: ${Object.keys(objectTypes).join(', ')}`);
@@ -72,16 +85,8 @@ export class Canvas {
         return item;
     }
 
-    public print(varName: string, printWhat: string): iShape | null {
-        const item = this.getItem(varName);
-        if (item) {
-            this._publishInfo(`Points for ${varName} are ${item.points.join(' ')}`);
-        }
-        return null;
-    }
-
-    public clone(fromVarName: string, toVarName: string): iShape | null {
-        const fromItem = this.getItem(fromVarName);
+    public clone(fromVarName: string | null, toVarName: string): iShape | null {
+        const fromItem = this.getItem(fromVarName || String(this.getWith()));
         if (fromItem) {
             const toItem = this.createItem(toVarName, fromItem.type);
             if (toItem) {
@@ -102,7 +107,8 @@ export class Canvas {
         return null;
     }
 
-    public remove(varName: string) {
+    public remove(varName: string | null) {
+        varName = varName || String(this.getWith());
         const item = this.getItem(varName);
         if (item) {
             item.remove();
@@ -113,7 +119,8 @@ export class Canvas {
         return this._publishError(`There was no object called ${varName}`);
     }
 
-    public paint(varName: string, color: string): iShape | null {
+    public paint(varName: string | null, color: string): iShape | null {
+        varName = varName || String(this.getWith())
         const item = this.getItem(varName);
         if (item) {
             item.fill = color;
@@ -124,7 +131,8 @@ export class Canvas {
         return null;
     }
 
-    public write(varName: string, text: string): iShape | null {
+    public write(varName: string | null, text: string): iShape | null {
+        varName = varName || String(this.getWith())
         const item = this.getItem(varName);
         if (item) {
             item.text = text;
@@ -134,7 +142,8 @@ export class Canvas {
         return null;
     }
 
-    public setStroke(varName: string, color: string, width: number): iShape | null {
+    public setStroke(varName: string | null, color: string | null, width: number | null): iShape | null {
+        varName = varName || String(this.getWith())
         const item = this.getItem(varName);
         if (item) {
             item.setStroke(color, width);
@@ -144,7 +153,8 @@ export class Canvas {
         return null;
     }
 
-    public moveTo(varName: string, x: number | null, y: number | null): iShape | null {
+    public moveTo(varName: string | null, x: number | null, y: number | null): iShape | null {
+        varName = varName || String(this.getWith())
         const item = this.getItem(varName);
         if (item) {
             item.moveTo(x, y);
@@ -154,7 +164,8 @@ export class Canvas {
         return null;
     }
 
-    public moveBy(varName: string, x: number | null, y: number | null): iShape | null {
+    public moveBy(varName: string | null, x: number | null, y: number | null): iShape | null {
+        varName = varName || String(this.getWith())
         const item = this.getItem(varName);
         if (item) {
             item.moveBy(x, y);
@@ -163,7 +174,8 @@ export class Canvas {
         return null;
     }
 
-    public sizeTo(varName: string, x: number | null, y: number | null): iShape | null {
+    public sizeTo(varName: string | null, x: number | null, y: number | null): iShape | null {
+        varName = varName || String(this.getWith())
         const item = this.getItem(varName);
         if (item) {
             item.sizeTo(x, y);
@@ -173,7 +185,8 @@ export class Canvas {
         return null;
     }
 
-    public sizeBy(varName: string, x: number | null, y: number | null): iShape | null {
+    public sizeBy(varName: string | null, x: number | null, y: number | null): iShape | null {
+        varName = varName || String(this.getWith())
         const item = this.getItem(varName);
         if (item) {
             item.sizeBy(x, y);
@@ -183,7 +196,8 @@ export class Canvas {
         return null;
     }
 
-    public setPoints(varName: string, points: string[]): iShape | null {
+    public setPoints(varName: string | null, points: string[]): iShape | null {
+        varName = varName || String(this.getWith())
         const item = this.getItem(varName);
         if (item) {
             let arrPoints: Point[] = [];
@@ -192,7 +206,7 @@ export class Canvas {
                 arrPoints.push(new Point(Number(arrPoint[0]), Number(arrPoint[1])));
             });
             item.setPoints(arrPoints);
-            this._publishInfo(`Set points ${varName} to ${item.width},${item.height}`);
+            this._publishInfo(`Set points ${varName} to ${item.points}`);
             return item;
         }
         return null

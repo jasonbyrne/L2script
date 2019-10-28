@@ -257,23 +257,24 @@ export class Circle extends Shape {
 
 export class Line extends Shape {
 
+    public get width(): number {
+        return this.points[1].x;
+    }
+
+    public get height(): number {
+        return this.points[1].y;
+    }
+
     public static create(name: string) {
         return new Line(name);
-    }
-
-    public get fill(): string {
-        return this.domElement.getAttributeNS(null, 'stroke');
-    }
-
-    public set fill(value: string) {
-        this.domElement.setAttributeNS(null, 'stroke', value);
     }
 
     constructor(name: string) {
         super('polyline', name);
         this._points = [
-            new Point(0, 0), new Point(100, 0)
+            new Point(10, 10), new Point(100, 10)
         ];
+        this.fill = 'none';
         this.draw();
     }
 

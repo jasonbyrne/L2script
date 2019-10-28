@@ -1,33 +1,31 @@
 new rectangle background
-  width 640
-  height 480
+  size 640,480
   paint blue
 new circle sun
   paint orange
   outline black 5
-  width 200
-  height 200
+  size 200,200
+  position -60,-60
 new circle
   paint yellow
-  width 100
-  height 50
-  move 400 100
+  size 100,50
+  move 400,100
 new rect ground
   paint green
   outline gray
-  move 0 350
-  width 1000
-  height 150
+  move 0,350
+  size 1000,150
 new text title
   write Ansley, I love you!!!
   paint white
-  move 100 100
+  move 100,100
 wait 1 second
-  move 120 120
+  move 120,120
 wait 1 second
-  move 140 140
+  move 140,140
 wait 1 second
 new text melinda
   write You too, Melinda Pie.
   paint red
-  move 200 200
+  move 200,200
+

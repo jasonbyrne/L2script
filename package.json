@@ -1,7 +1,7 @@
 {
     "name": "l2script",
     "version": "0.0.1",
-    "description": "Simple scripting language for creating art and animations. Designed for teaching peope to code.",
+    "description": "Simple scripting language for creating art and animations. Designed for teaching people to code.",
     "files": [
         "dist/",
         "README.md"
@@ -9,9 +9,12 @@
     "main": "./dist/index.js",
     "scripts": {
         "start": "node dist/index.js",
-        "build": "mkdir -p dist && rm -Rf dist/* && mkdir -p dist/public && cp src/*.js dist/ && cp src/public/*.html dist/public/ && cp src/public/*.svg dist/public/ && cp src/public/*.css dist/public/ && tsc && webpack",
-        "serve": "node run-script build && npm start",
-        "test": "node tests/test.js"
+        "build": "rm -rf dist/* && webpack --config webpack.config.js --mode development",
+        "build:prod": "rm -rf dist/* && webpack --config webpack.config.js --mode production",
+        "serve": "npm run-script build && npm start",
+        "test": "node tests/test.js",
+        "tsc": "./node_modules/.bin/tsc",
+        "webpack": "./node_modules/.bin/webpack"
     },
     "author": "Jason Byrne <jasonbyrne662@gmail.com>",
     "license": "MIT",
@@ -21,6 +24,9 @@
     },
     "devDependencies": {
         "@types/node": "^12.11.1",
+        "copy-webpack-plugin": "^5.0.4",
+        "ts-loader": "^6.2.0",
+        "typescript": "^3.6.4",
         "webpack": "^4.41.2",
         "webpack-cli": "^3.3.9"
     }

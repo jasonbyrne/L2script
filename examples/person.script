@@ -1,49 +1,49 @@
-new rectangle background
+new rectangle as background
   paint black
-  size 640,480
-new rectangle body
+  size to 640,480
+new rectangle as body
   paint blue
   outline #aaaaff 2
-  size 240,400
-  position 30,300
-new circle head
+  size to 240,400
+  move to 30,300
+new circle as head
   paint #ddaa00
   outline white 2
-  size 200,250
-  position 50,30
-new circle leftEye
+  size to 200,250
+  move to 50,30
+new circle as leftEye
   paint white
   outline black
-  size 30,40
-  position 90,100
-clone leftEye rightEye
-  move 80,0
-clone leftEye leftPupil
+  size to 30,40
+  move to 90,100
+clone leftEye as rightEye
+  move by 80,0
+clone leftEye as leftPupil
   paint black
-  size 12,16
-  move 9,12
-clone leftPupil rightPupil
-  move 80,0
-new circle nose
+  size to 12,16
+  move by 9,12
+clone leftPupil as rightPupil
+  move by 80,0
+new circle as nose
   paint yellow
-  size 30,30
-  position 130,150
-new circle mouth
+  size to 30,30
+  move to 130,150
+new circle as mouth
   paint red
-  size 120,30
-  position 85,200
-new line unibrow
+  size to 120,30
+  move to 85,200
+new line as unibrow
   points 87,85 200,85
   outline black 6
-new line leftArm
+new line as leftArm
   points 75,350 75,550
   outline black 6
-clone leftArm rightArm
+clone leftArm as rightArm
   points 225,350 225,550
   outline black 6
 wait 2 seconds
-move leftPupil -5,4
-move rightPupil 5,4
+move leftPupil by -5,4
+move rightPupil by 5,4
 wait 2 seconds
-move leftPupil 5,-4
-move rightPupil -5,-4
+move leftPupil by 5,-4
+move rightPupil by -5,-4

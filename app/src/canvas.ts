@@ -85,9 +85,10 @@ export class Canvas {
         return item;
     }
 
-    public clone(fromVarName: string | null, toVarName: string): iShape | null {
+    public clone(fromVarName: string | null, toVarName: string | null): iShape | null {
         const fromItem = this.getItem(fromVarName || String(this.getWith()));
         if (fromItem) {
+            toVarName = toVarName || generateName();
             const toItem = this.createItem(toVarName, fromItem.type);
             if (toItem) {
                 // Need to make a copy by value, not by reference
@@ -157,6 +158,8 @@ export class Canvas {
         varName = varName || String(this.getWith())
         const item = this.getItem(varName);
         if (item) {
+            x = typeof x == 'undefined' ? null : x;
+            y = typeof y == 'undefined' ? null : y;
             item.moveTo(x, y);
             this._publishInfo(`Moved ${varName} to ${item.x},${item.y}`);
             return item;
@@ -168,6 +171,8 @@ export class Canvas {
         varName = varName || String(this.getWith())
         const item = this.getItem(varName);
         if (item) {
+            x = typeof x == 'undefined' ? null : x;
+            y = typeof y == 'undefined' ? null : y;
             item.moveBy(x, y);
             this._publishInfo(`Moved ${varName} to ${item.x},${item.y}`);
         }
@@ -178,6 +183,8 @@ export class Canvas {
         varName = varName || String(this.getWith())
         const item = this.getItem(varName);
         if (item) {
+            x = typeof x == 'undefined' ? null : x;
+            y = typeof y == 'undefined' ? null : y;
             item.sizeTo(x, y);
             this._publishInfo(`Sized ${varName} to ${item.width},${item.height}`);
             return item;
@@ -189,6 +196,8 @@ export class Canvas {
         varName = varName || String(this.getWith())
         const item = this.getItem(varName);
         if (item) {
+            x = typeof x == 'undefined' ? null : x;
+            y = typeof y == 'undefined' ? null : y;
             item.sizeBy(x, y);
             this._publishInfo(`Sized ${varName} to ${item.width},${item.height}`);
             return item;

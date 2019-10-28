@@ -270,34 +270,38 @@ export class Line extends Shape {
     }
 
     constructor(name: string) {
-        super('line', name);
+        super('polyline', name);
+        this._points = [
+            new Point(0, 0), new Point(100, 0)
+        ];
+        this.draw();
     }
 
     public moveBy(x: number | null, y: number | null) {
-        this.points[0].moveBy(x, y);
+        this.points.forEach((point) => {
+            point.moveBy(x, y);
+        });
         this.draw();
     }
 
     public moveTo(x: number | null, y: number | null) {
+        const prevPoints: [number, number] = this.points[0].toTuple();
         this.points[0].moveTo(x, y);
-        this.draw();
-    }
-
-    public sizeBy(x: number | null, y: number | null) {
-        this.points[1].moveBy(x, y);
-        this.draw();
-    }
-
-    public sizeTo(x: number | null, y: number | null) {
-        this.points[1].moveTo(x, y);
+        const diffPoints: [number, number] = [
+            this.points[0].x - prevPoints[0],
+            this.points[0].y - prevPoints[1]
+        ];
+        this.points.forEach((point, i) => {
+            // Don't move the first point again
+            if (i > 0) {
+                point.moveBy(diffPoints[0], diffPoints[1]);
+            }
+        })
         this.draw();
     }
 
     protected draw() {
-        this.domElement.setAttributeNS(null, 'x1', this.points[0].x);
-        this.domElement.setAttributeNS(null, 'y1', this.points[0].y);
-        this.domElement.setAttributeNS(null, 'x2', this.points[0].x + this.points[1].x);
-        this.domElement.setAttributeNS(null, 'y2', this.points[0].y + this.points[1].y);
+        this.domElement.setAttributeNS(null, 'points', this._points.map(point => point.toString()).join(' '));
     }
 
 }

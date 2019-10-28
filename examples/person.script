@@ -33,21 +33,17 @@ new circle mouth
   size 120 30
   position 85 200
 new line unibrow
-  position 87 85
-  size 120 0
+  points 87,85 200,85
   outline black 6
 new line leftArm
-  position 75 350
-  size 0 200
+  points 75,350 75,550
   outline black 6
 clone leftArm rightArm
-  move 150 0
-  size 0 200
+  points 225,350 225,550
+  outline black 6
 wait 2 seconds
 move leftPupil -5 4
 move rightPupil 5 4
 wait 2 seconds
 move leftPupil 5 -4
 move rightPupil -5 -4
-
-

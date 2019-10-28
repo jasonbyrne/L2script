@@ -10,6 +10,7 @@ const objectTypes: { [key: string]: (name: string) => iShape } = {
     'rectangle': Rectangle.create,
     'rect': Rectangle.create,
     'line': Line.create,
+    'polyline': Line.create,
     'polygon': Polygon.create
 };
 

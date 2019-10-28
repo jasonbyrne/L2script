@@ -5,8 +5,7 @@ After cloning run
 
 ```
 npm i
-npm run-script build
-npm run-script start
+npm run-script serve
 ```
 
 And then open browser to http://localhost:5000/

@@ -65,6 +65,7 @@ export class Canvas {
         }
         const item = this._items[varName] = objectTypes[type](varName);
         this._withItemName = varName;
+        item.domElement.innerHTML = `<title>${item.name}</title>`;
         this._svg.appendChild(item.domElement);
         this._publishInfo(`Created ${type} object called ${varName}`);
         return item;

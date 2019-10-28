@@ -83,6 +83,7 @@ export class Canvas {
         if (fromItem) {
             const toItem = this.createItem(toVarName, fromItem.type);
             if (toItem) {
+                // Need to make a copy by value, not by reference
                 let points: Point[] = [];
                 fromItem.points.forEach((point: Point) => {
                     points.push(new Point(point.x, point.y));

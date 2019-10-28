@@ -3,18 +3,18 @@ const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
-    entry: './app/src/main.ts',
+    entry: path.resolve('app', 'src', 'main.ts'),
     devtool: 'source-map',
     plugins: [
         new CopyWebpackPlugin([
-            'app/index.js',
+            `app${path.sep}index.js`,
             {
-                from: 'app/public/**/*',
+                from: `app${path.sep}public${path.sep}**${path.sep}*`,
                 to: 'public',
                 // NOTE(jpr): this is hacky but we need to move to get rid of
                 // index.js before we get rid of this
                 transformPath(targetPath, _) {
-                    return targetPath.replace(/^public\/app\//i, '');
+                    return targetPath.replace(/^public[\/\\]app[\/\\]/i, '');
                 },
             },
         ]),
@@ -32,7 +32,7 @@ module.exports = {
         extensions: ['.tsx', '.ts', '.js'],
     },
     output: {
-        filename: 'public/bundle.js',
+        filename: `public${path.sep}bundle.js`,
         path: path.resolve(__dirname, 'dist'),
     }
 };

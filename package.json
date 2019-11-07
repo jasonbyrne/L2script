@@ -8,13 +8,9 @@
     ],
     "main": "./dist/index.js",
     "scripts": {
-        "start": "node dist/index.js",
         "build": "rm -rf dist/* && webpack --config webpack.config.js --mode development",
         "build:prod": "rm -rf dist/* && webpack --config webpack.config.js --mode production",
-        "serve": "npm run-script build && npm start",
-        "start:dev": "webpack-dev-server --config webpack.config.js --mode development",
-        "test": "node tests/test.js",
-        "tsc": "./node_modules/.bin/tsc",
+        "start:dev": "webpack-dev-server --open --config webpack.config.js --mode development",
         "webpack": "./node_modules/.bin/webpack",
         "webpack-dev-server": "./node_modules/.bin/webpack-dev-server"
     },

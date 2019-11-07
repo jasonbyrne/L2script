@@ -9,13 +9,9 @@ module.exports = {
         new CopyWebpackPlugin([
             path.join('app', 'index.html'),
             {
-                from: `app${path.sep}public${path.sep}**${path.sep}*`,
-                to: 'public',
-                // NOTE(jpr): this is hacky but we need to move to get rid of
-                // index.js before we get rid of this
-                transformPath(targetPath, _) {
-                    return targetPath.replace(/^public[\/\\]app[\/\\]/i, '');
-                },
+                from: path.join('app', 'assets', '**', '*'),
+                to: 'assets',
+                flatten: true,
             },
         ]),
     ],

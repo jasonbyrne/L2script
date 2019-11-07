@@ -21,9 +21,7 @@
     "author": "Jason Byrne <jasonbyrne662@gmail.com>",
     "license": "MIT",
     "keywords": [],
-    "dependencies": {
-        "express": "^4.17.1"
-    },
+    "dependencies": {},
     "devDependencies": {
         "@types/node": "^12.11.1",
         "copy-webpack-plugin": "^5.0.4",

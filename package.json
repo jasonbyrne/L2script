@@ -12,9 +12,11 @@
         "build": "rm -rf dist/* && webpack --config webpack.config.js --mode development",
         "build:prod": "rm -rf dist/* && webpack --config webpack.config.js --mode production",
         "serve": "npm run-script build && npm start",
+        "start:dev": "webpack-dev-server --config webpack.config.js --mode development",
         "test": "node tests/test.js",
         "tsc": "./node_modules/.bin/tsc",
-        "webpack": "./node_modules/.bin/webpack"
+        "webpack": "./node_modules/.bin/webpack",
+        "webpack-dev-server": "./node_modules/.bin/webpack-dev-server"
     },
     "author": "Jason Byrne <jasonbyrne662@gmail.com>",
     "license": "MIT",

@@ -7,7 +7,7 @@ module.exports = {
     devtool: 'source-map',
     plugins: [
         new CopyWebpackPlugin([
-            `app${path.sep}index.js`,
+            path.join('app', 'index.html'),
             {
                 from: `app${path.sep}public${path.sep}**${path.sep}*`,
                 to: 'public',
@@ -32,7 +32,10 @@ module.exports = {
         extensions: ['.tsx', '.ts', '.js'],
     },
     output: {
-        filename: `public${path.sep}bundle.js`,
+        filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist'),
-    }
+    },
+    devServer: {
+        port: 5000,
+    },
 };

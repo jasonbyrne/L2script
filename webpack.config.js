@@ -7,15 +7,11 @@ module.exports = {
     devtool: 'source-map',
     plugins: [
         new CopyWebpackPlugin([
-            `app${path.sep}index.js`,
+            path.join('app', 'index.html'),
             {
-                from: `app${path.sep}public${path.sep}**${path.sep}*`,
-                to: 'public',
-                // NOTE(jpr): this is hacky but we need to move to get rid of
-                // index.js before we get rid of this
-                transformPath(targetPath, _) {
-                    return targetPath.replace(/^public[\/\\]app[\/\\]/i, '');
-                },
+                from: path.join('app', 'assets', '**', '*'),
+                to: 'assets',
+                flatten: true,
             },
         ]),
     ],
@@ -32,7 +28,10 @@ module.exports = {
         extensions: ['.tsx', '.ts', '.js'],
     },
     output: {
-        filename: `public${path.sep}bundle.js`,
+        filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist'),
-    }
+    },
+    devServer: {
+        port: 5000,
+    },
 };

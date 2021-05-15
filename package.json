@@ -8,26 +8,23 @@
     ],
     "main": "./dist/index.js",
     "scripts": {
-        "start": "node dist/index.js",
         "build": "rm -rf dist/* && webpack --config webpack.config.js --mode development",
         "build:prod": "rm -rf dist/* && webpack --config webpack.config.js --mode production",
-        "serve": "npm run-script build && npm start",
-        "test": "node tests/test.js",
-        "tsc": "./node_modules/.bin/tsc",
-        "webpack": "./node_modules/.bin/webpack"
+        "start:dev": "webpack-dev-server --open --config webpack.config.js --mode development",
+        "webpack": "./node_modules/.bin/webpack",
+        "webpack-dev-server": "./node_modules/.bin/webpack-dev-server"
     },
     "author": "Jason Byrne <jasonbyrne662@gmail.com>",
     "license": "MIT",
     "keywords": [],
-    "dependencies": {
-        "express": "^4.17.1"
-    },
+    "dependencies": {},
     "devDependencies": {
         "@types/node": "^12.11.1",
         "copy-webpack-plugin": "^5.0.4",
         "ts-loader": "^6.2.0",
         "typescript": "^3.6.4",
         "webpack": "^4.41.2",
-        "webpack-cli": "^3.3.9"
+        "webpack-cli": "^3.3.9",
+        "webpack-dev-server": "^3.9.0"
     }
 }

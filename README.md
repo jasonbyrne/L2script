@@ -14,7 +14,7 @@ And then open browser to http://localhost:5000/
 
 ### Create new object 
 
-new $type as $name
+`new $type as $name`
 
 $type can be text, rectangle, circle, line, polygon
 $name can be any unique string or can be left off and a random name will be generated, but then you won't be able to reference it later
@@ -25,11 +25,11 @@ new rectangle as sky
 
 ### Set size 
 
-size $name to $width,$height
+`size $name to $width,$height`
 
 ### Set position 
 
-move $name to $x,$y
+`move $name to $x,$y`
 
 ## Set points
 
@@ -43,17 +43,17 @@ new polygon as someRhombus
 
 ### Set color 
 
-paint $name $color
+`paint $name $color`
 
 ### Set outline 
 
-outline $name $color $thickness
+`outline $name $color $thickness`
 
 ### Clone another object
 
 This is useful to duplciate items to keep from typing them over and over
 
-clone $objectToCopy as $newName
+`clone $objectToCopy as $newName`
 
 ### Avoid typing name over and over 
 
@@ -102,17 +102,17 @@ wait 2 seconds
 
 ### Move something relative to its current position
 
-move $name by 10,10
+`move $name by 10,10`
 
 ### Or change the size by a certain amount 
 
 Increase it with
 
-size $name by 10,5
+`size $name by 10,5`
 
 You can also use negative numbers to shrink it
 
-size $name by -5,-5
+`size $name by -5,-5`
 
 ### Write text
 

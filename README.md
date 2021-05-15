@@ -20,7 +20,7 @@ $type can be text, rectangle, circle, line, polygon
 $name can be any unique string or can be left off and a random name will be generated, but then you won't be able to reference it later
 
 ```
-new rectangle sky
+new rectangle as sky
 ```
 
 ### Set size 
@@ -36,7 +36,7 @@ move $name to $x,$y
 With certain shapes, like a polygon, you want to be able to set an arbitrary number of points.
 
 ```
-new polygon someRhombus
+new polygon as someRhombus
   paint red
   points 150,50 250,50 300,100 200,100
 ```

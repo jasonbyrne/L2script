@@ -26,6 +26,7 @@ export class Parser {
   private lastWith: WithElement = null;
   private lines: string[] = [];
   private variables: { [key: string]: string } = {};
+  private lineNumber: number | null = 0;
 
   private syntax: iLanguagePattern[] = [
     {
@@ -42,6 +43,12 @@ export class Parser {
       pattern: /^set ([a-z]+) (=)? ?([a-z0-9]+)$/i,
       action: (name: string, op: string, value: string) => {
         this.variables[name] = value;
+      },
+    },
+    {
+      pattern: /^goto line ([0-9]+)$/i,
+      action: (lineNumber: number) => {
+        this.lineNumber = lineNumber - 1; // Set it to minus one because it will increment
       },
     },
     {
@@ -187,7 +194,6 @@ export class Parser {
   private replaceUserVariables(line: string): string {
     Object.entries(this.variables).forEach((variable) => {
       line = line.replace(`%${variable[0]}`, variable[1]);
-      console.log(variable[0], variable[1]);
     });
     return line;
   }
@@ -219,14 +225,14 @@ export class Parser {
     });
   }
 
-  public async execute() {
-    let lineNumber = 1;
-    for (let i = 0; i < this.lines.length; i++) {
-      let line = this.lines[i];
+  public async execute(startLine: number = 1) {
+    const startIndex = startLine - 1;
+    const length = this.lines.length - startIndex;
+    this.lineNumber = startLine;
+    for (; this.lineNumber <= length; ) {
+      let line = this.lines[this.lineNumber - 1];
       line = this.replaceSystemVariables(line);
       line = this.replaceUserVariables(line);
-      // Increment line number
-      lineNumber += 1;
       // Ignore blank lines
       if (line.length) {
         // Echo line
@@ -242,6 +248,7 @@ export class Parser {
           command.matches.slice(1)
         );
       }
+      this.lineNumber += 1;
     }
   }
 }

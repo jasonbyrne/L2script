@@ -22,7 +22,6 @@ const objectTypes: { [key: string]: (name: string) => iShape } = {
 
 export class Canvas {
   protected _svg: Element;
-  protected _variables: { [key: string]: any } = {};
   protected _items: { [key: string]: iShape } = {};
   protected _timers: NodeJS.Timeout[] = [];
   protected _errorListeners: ((message: string) => void)[] = [];
@@ -46,20 +45,6 @@ export class Canvas {
 
   public getDomElement(): Element {
     return this._svg;
-  }
-
-  public setVariable(varName: string, value: any) {
-    if (!varNamingRule.test(varName)) {
-      return this._publishError(
-        `Name of your variable must start with a letter and contain only letters or numbers.`
-      );
-    }
-    this._variables[varName] = value;
-    this._publishInfo(`Set variable ${varName} to ${String(value)}`);
-  }
-
-  public getVariable(varName: string): any {
-    return this._variables[varName] || null;
   }
 
   public getItem(varName: string): iShape | null {
@@ -154,7 +139,6 @@ export class Canvas {
 
   public write(varName: string | null, text: string): iShape | null {
     varName = varName || String(this.getWith());
-    text = this._replaceVariables(text);
     const item = this.getItem(varName);
     if (item) {
       item.text = text;
@@ -324,10 +308,5 @@ export class Canvas {
     this._infoListeners.forEach((callback) => {
       callback(message);
     });
-  }
-
-  protected _replaceVariables(text: string): string {
-    text = text.replace("%TIME", formatAMPM(new Date()));
-    return text;
   }
 }

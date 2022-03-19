@@ -1,5 +1,5 @@
 import { Canvas } from "../canvas";
-import { forEachPromise } from "../util";
+import { forEachPromise, formatAMPM } from "../util";
 
 export type WithElement = string | null;
 
@@ -25,6 +25,7 @@ export class Parser {
 
   private lastWith: WithElement = null;
   private lines: string[] = [];
+  private variables: { [key: string]: string } = {};
 
   private syntax: iLanguagePattern[] = [
     {
@@ -38,9 +39,9 @@ export class Parser {
       },
     },
     {
-      pattern: /^set ([a-z]+) (=)? ?([a-z][a-z0-9]*)$/i,
+      pattern: /^set ([a-z]+) (=)? ?([a-z0-9]+)$/i,
       action: (name: string, op: string, value: string) => {
-        this.canvas.setVariable(name, value);
+        this.variables[name] = value;
       },
     },
     {
@@ -135,6 +136,14 @@ export class Parser {
         this.canvas.setPoints(name, points.split(" "));
       },
     },
+    {
+      pattern: /^print (.+)$/i,
+      action: (str: string) => {
+        str = this.replaceSystemVariables(str);
+        str = this.replaceUserVariables(str);
+        this.log(str);
+      },
+    },
   ];
 
   private getCommand(line: string): MatchedCommand | null {
@@ -175,6 +184,28 @@ export class Parser {
     return line;
   }
 
+  private replaceUserVariables(line: string): string {
+    Object.entries(this.variables).forEach((variable) => {
+      line = line.replace(`%${variable[0]}`, variable[1]);
+      console.log(variable[0], variable[1]);
+    });
+    return line;
+  }
+
+  private replaceSystemVariables(line: string): string {
+    line = line.replace("%TIME", formatAMPM(new Date()));
+    line = line.replace(
+      "%DATE",
+      new Date().toLocaleDateString("en-us", {
+        weekday: "long",
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      })
+    );
+    return line;
+  }
+
   public compile(code: string) {
     const lines = code ? code.split("\n") : [];
     this.lines = lines.map((line) => {
@@ -192,6 +223,8 @@ export class Parser {
     let lineNumber = 1;
     for (let i = 0; i < this.lines.length; i++) {
       let line = this.lines[i];
+      line = this.replaceSystemVariables(line);
+      line = this.replaceUserVariables(line);
       // Increment line number
       lineNumber += 1;
       // Ignore blank lines

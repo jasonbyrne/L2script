@@ -1,4 +1,5 @@
 # L2script
+
 Simple scripting language for art and animation, designed to help people learn to code.
 
 After cloning run
@@ -10,9 +11,12 @@ npm run-script start:dev
 
 And then open browser to http://localhost:5000/
 
-## Commands 
+Take a look at our examples:
+https://github.com/jasonbyrne/L2script/tree/master/examples
 
-### Create new object 
+## Commands
+
+### Create new object
 
 `new $type as $name`
 
@@ -23,11 +27,11 @@ $name can be any unique string or can be left off and a random name will be gene
 new rectangle as sky
 ```
 
-### Set size 
+### Set size
 
 `size $name to $width,$height`
 
-### Set position 
+### Set position
 
 `move $name to $x,$y`
 
@@ -41,11 +45,11 @@ new polygon as someRhombus
   points 150,50 250,50 300,100 200,100
 ```
 
-### Set color 
+### Set color
 
 `paint $name $color`
 
-### Set outline 
+### Set outline
 
 `outline $name $color $thickness`
 
@@ -55,7 +59,7 @@ This is useful to duplciate items to keep from typing them over and over
 
 `clone $objectToCopy as $newName`
 
-### Avoid typing name over and over 
+### Avoid typing name over and over
 
 You can use the `with` property to set the object you're talking about. Then on the next lines do a space (or multiple spaces) indent. You can skip typing the name.
 
@@ -86,8 +90,8 @@ new circle as sun
    move to 0,0
 ```
 
-### Pause before continuing 
- 
+### Pause before continuing
+
 Use wait to pause. Example:
 
 ```
@@ -104,7 +108,7 @@ wait 2 seconds
 
 `move $name by 10,10`
 
-### Or change the size by a certain amount 
+### Or change the size by a certain amount
 
 Increase it with
 
@@ -124,6 +128,59 @@ new text as hello
   move to 10,10
 ```
 
+# Set Font Size
+
+This only works for text type boxes
+
+```
+new text as hello
+  write Hello World!
+  move to 10,10
+  fontSize 24
+```
+
+# Go to line
+
+This lets you go to a certain number
+
+```
+goto line 12
+```
+
+# Set Variable
+
+Saves a variable with a given name and value
+
+```
+set bgColor = blue
+```
+
+You can later use this value in another line with the % character
+
+```
+paint box %bgColor
+```
+
+# System Variables
+
+There are certain variables that are pre-programmed that you can use out of the box
+
+- TIME = Current time
+- DATE = Current date
+
+```
+with clock
+  write %TIME
+```
+
+# Print
+
+Writes out text to the console. This can be useful for printing variables for debugging.
+
+```
+print %bgColor
+```
+
 ### Remove an item
 
 Delete an item entirely (can not be brought back)
@@ -138,8 +195,7 @@ remove jason
 ### Reset all
 
 Clear off the entire canvas, removing all items and starting fresh. Useful if you want to change scenes.
- 
- ```
- reset
- ```
- 
+
+```
+reset
+```

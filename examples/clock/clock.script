@@ -1,0 +1,14 @@
+set bgColor = black
+set clockColor = red
+set updateDelay = 1
+new rectangle background
+  paint %bgColor
+  size to 450,180
+new text clock
+  write %TIME
+  paint %clockColor
+  move to 100,100
+  fontSize 50
+wait %updateDelay seconds
+write clock %TIME
+goto line 12

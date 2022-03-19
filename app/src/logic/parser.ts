@@ -137,6 +137,15 @@ export class Parser {
       },
     },
     {
+      pattern: /^fontSize ([a-z][a-z0-9]*) ([0-9]+)$/i,
+      action: (name: string, size: number) => {
+        this.canvas.setFontSize(name, size);
+      },
+      getWith: (name: string) => {
+        return name;
+      },
+    },
+    {
       pattern: /^points ([a-z][a-z0-9]*) ([-0-9, ]+)$/i,
       action: (name: string, points: string) => {
         // this is not ideal

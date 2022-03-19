@@ -137,6 +137,18 @@ export class Canvas {
     return null;
   }
 
+  public setFontSize(varName: string | null, size: number): iShape | null {
+    varName = varName || String(this.getWith());
+    const item = this.getItem(varName);
+    if (item) {
+      item.fontSize = `${size}pt`;
+      this._withItemName = varName;
+      this._publishInfo(`Sizing ${varName} to ${size}pt`);
+      return item;
+    }
+    return null;
+  }
+
   public write(varName: string | null, text: string): iShape | null {
     varName = varName || String(this.getWith());
     const item = this.getItem(varName);

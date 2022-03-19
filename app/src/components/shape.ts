@@ -15,6 +15,7 @@ export interface iShape {
   fill: string;
   text: string;
   stroke: Stroke;
+  fontSize: string;
   remove(): void;
   moveBy(x: number | null, y: number | null): void;
   moveTo(x: number | null, y: number | null): void;
@@ -62,6 +63,14 @@ export abstract class Shape implements iShape {
 
   public set fill(value: string) {
     this.domElement.style.fill = value;
+  }
+
+  public get fontSize(): string {
+    return this.domElement.style.fontSize;
+  }
+
+  public set fontSize(value: string) {
+    this.domElement.style.fontSize = value;
   }
 
   public get text(): string {

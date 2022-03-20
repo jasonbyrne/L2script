@@ -1,6 +1,8 @@
 ![L2Script Logo](https://github.com/jasonbyrne/L2script/raw/master/app/assets/l2script.png)
 
-Simple scripting language for art and animation, designed to help people learn to code.
+Simple scripting language and IDE for art and animation, designed to help kids learn basic coding and logic.
+
+## Development Setup
 
 After cloning run
 
@@ -128,7 +130,7 @@ new text as hello
   move to 10,10
 ```
 
-# Set Font Size
+### Set Font Size
 
 This only works for text type boxes
 
@@ -139,7 +141,7 @@ new text as hello
   fontSize 24
 ```
 
-# Go to line
+### Go to line
 
 This lets you go to a certain number
 
@@ -147,7 +149,7 @@ This lets you go to a certain number
 goto line 12
 ```
 
-# Set Variable
+### Set Variable
 
 Saves a variable with a given name and value
 
@@ -161,7 +163,7 @@ You can later use this value in another line with the % character
 paint box %bgColor
 ```
 
-# System Variables
+### System Variables
 
 There are certain variables that are pre-programmed that you can use out of the box
 
@@ -173,7 +175,7 @@ with clock
   write %TIME
 ```
 
-# Print
+### Print
 
 Writes out text to the console. This can be useful for printing variables for debugging.
 

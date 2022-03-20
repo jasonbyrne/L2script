@@ -42,7 +42,7 @@ Any visual element that you want to create is an object. This is typically a sha
 object background = new rectangle
 ```
 
-The `myShape` part is whatever name you want to give your object.
+The `background` part is whatever name you want to give your object.
 
 The `rectangle` part can be equal to text, rectangle, circle, line, polygon
 

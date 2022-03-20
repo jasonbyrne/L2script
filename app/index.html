@@ -1,26 +1,32 @@
 <html>
-    <head>
-        <title>L2Script</title>
-        <link rel="stylesheet" href="assets/style.css" />
-    </head>
-    <body>
-        <header>
-
-        </header>
-        <main>
-            <div id="source">
-                <nav>
-                    <button id="run">run</button>
-                </nav>
-                <div id="code" contenteditable></div>
-                <div id="lineNumbers"></div>
-            </div>
-            <div id="output">
-                <img class="ruler" id="xRuler" src="assets/ruler.svg" />
-                <img class="ruler" id="yRuler" src="assets/ruler.svg" />
-            </div>
-            <div id="console"></div>
-        </main>
-        <script src="bundle.js"></script>
-    </body>
+  <head>
+    <title>L2Script</title>
+    <link rel="stylesheet" href="assets/style.css" />
+  </head>
+  <body>
+    <header id="header">
+      <img src="/assets/l2script.png" />
+    </header>
+    <main id="content">
+      <div id="source">
+        <nav>
+          <span>Code</span>
+          <button id="run">run</button>
+        </nav>
+        <div id="code" contenteditable></div>
+        <div id="lineNumbers"></div>
+      </div>
+      <div id="output">
+        <nav>
+          <span>Canvas</span>
+        </nav>
+        <div id="canvas">
+          <img class="ruler" id="xRuler" src="assets/ruler.svg" />
+          <img class="ruler" id="yRuler" src="assets/ruler.svg" />
+        </div>
+      </div>
+      <div id="console"></div>
+    </main>
+    <script src="bundle.js"></script>
+  </body>
 </html>

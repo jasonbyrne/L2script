@@ -1,15 +1,16 @@
 import { forEachPromise } from "./util";
 import { Canvas } from "./canvas";
 import { Parser } from "./logic/parser";
+import { initIde } from "./ide";
 
 // Setup DOM
 const scriptConsole = document.getElementById("console");
-const output = document.getElementById("output");
+const canvasDiv = document.getElementById("canvas");
 const code = document.getElementById("code");
 const lineNumbers = document.getElementById("lineNumbers");
 
 const canvas: Canvas = new Canvas(640, 480);
-output && output.appendChild(canvas.getDomElement());
+canvasDiv && canvasDiv.appendChild(canvas.getDomElement());
 
 canvas.onError((message) => {
   log(message);
@@ -102,4 +103,5 @@ if (lastRunCode && code) {
   code.innerText +=
     "new rectangle background\n" + "  size 640 480\n" + "  paint black\n";
 }
-render();
+
+initIde();

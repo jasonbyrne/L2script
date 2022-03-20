@@ -27,11 +27,18 @@ export class Parser {
   private lines: string[] = [];
   private variables: { [key: string]: string } = {};
   private lineNumber: number | null = 0;
+  private marker: { [key: string]: number } = {};
 
   private syntax: iLanguagePattern[] = [
     {
       pattern: /^reset$/i,
       action: this.canvas.reset,
+    },
+    {
+      pattern: /^end$/i,
+      action: () => {
+        this.lineNumber = this.lines.length + 1;
+      },
     },
     {
       pattern: /^wait ([0-9]+) ?([a-z]+)?$/i,
@@ -49,6 +56,18 @@ export class Parser {
       pattern: /^goto line ([0-9]+)$/i,
       action: (lineNumber: number) => {
         this.lineNumber = lineNumber - 1; // Set it to minus one because it will increment
+      },
+    },
+    {
+      pattern: /^goto mark ([A-Za-z][A-Za-z0-9]*)$/i,
+      action: (markerName: string) => {
+        this.lineNumber = this.marker[markerName] || 1;
+      },
+    },
+    {
+      pattern: /^mark ([A-Za-z][A-Za-z0-9]*)$/i,
+      action: (markerName: string) => {
+        this.marker[markerName] = this.lineNumber || 1;
       },
     },
     {

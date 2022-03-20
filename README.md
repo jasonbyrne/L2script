@@ -1,4 +1,4 @@
-# L2script
+![L2Script Logo](https://github.com/jasonbyrne/L2script/raw/master/app/assets/l2script.png)
 
 Simple scripting language for art and animation, designed to help people learn to code.
 

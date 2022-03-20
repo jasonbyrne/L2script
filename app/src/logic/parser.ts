@@ -47,6 +47,30 @@ export class Parser {
       },
     },
     {
+      pattern: /^string ([a-z][a-z0-9]*) ?(=) ?([a-z0-9]+)$/i,
+      action: (name: string, op: string, value: string) => {
+        this.variables[name] = value;
+      },
+    },
+    {
+      pattern: /^object ([a-z][a-z0-9]*) ?(=) ?new ([a-z][a-z0-9]*)$/i,
+      action: (name: string, op: string, type: string) => {
+        this.canvas.createItem(name, type);
+      },
+      getWith: (name: string, op: string, type: string) => {
+        return name;
+      },
+    },
+    {
+      pattern: /^object ([a-z][a-z0-9]*) ?(=) ?clone ([a-z][a-z0-9]*)$/i,
+      action: (toName: string, op: string, fromName: string) => {
+        this.canvas.clone(fromName, toName || null);
+      },
+      getWith: (toName: string, op: string, fromName: string) => {
+        return toName;
+      },
+    },
+    {
       pattern: /^set ([a-z]+) (=)? ?([a-z0-9]+)$/i,
       action: (name: string, op: string, value: string) => {
         this.variables[name] = value;

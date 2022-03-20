@@ -101,7 +101,9 @@ if (lastRunCode && code) {
   updateLineCount();
 } else if (code) {
   code.innerText +=
-    "new rectangle background\n" + "  size to 640,640\n" + "  paint black\n";
+    "object background = new rectangle\n" +
+    "  size to 640,640\n" +
+    "  paint black\n";
 }
 
 initIde();

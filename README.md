@@ -2,7 +2,7 @@
 
 Simple scripting language and IDE for art and animation, designed to help kids learn basic coding and logic.
 
-## Development Setup
+# Development Setup
 
 After cloning run
 
@@ -16,17 +16,21 @@ And then open browser to http://localhost:5000/
 Take a look at our examples:
 https://github.com/jasonbyrne/L2script/tree/master/examples
 
+# Scripting in L2
+
+## Basic Concepts
+
 ### Canvas
 
 L2Script gives you a 640x640 canvas to design within
 
-## Data Types
+### Data Types
 
-### string
+#### string
 
 Any text data that you want to save for later use is a string.
 
-### object
+#### object
 
 Any visual element that you want to create is an object. This is typically a shape.
 

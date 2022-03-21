@@ -116,7 +116,7 @@ export class Parser {
     {
       pattern: /^object ([a-z][a-z0-9]*) ?(=) ?clone ([a-z][a-z0-9]*)$/i,
       action: (toName: string, op: string, fromName: string) => {
-        const shape = this.canvas.clone(fromName, toName || null);
+        const shape = this.canvas.clone(fromName, toName);
         if (shape) this.objects[toName] = shape;
       },
       getContext: (toName: string) => {
@@ -144,8 +144,6 @@ export class Parser {
     {
       pattern: /^with ([a-z][a-z0-9]*)$/i,
       action: (name: string) => {
-        // TODO: is this next line needed anymore?
-        this.canvas.setWith(name);
         return this.withContext(name);
       },
       getContext: (name: string) => {

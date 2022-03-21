@@ -26,7 +26,6 @@ export class Canvas {
   protected _timers: NodeJS.Timeout[] = [];
   protected _errorListeners: ((message: string) => void)[] = [];
   protected _infoListeners: ((message: string) => void)[] = [];
-  protected _withItemName: string | null = null;
 
   constructor(width: number, height: number) {
     this._svg = document.createElementNS(svgns, "svg");
@@ -80,18 +79,14 @@ export class Canvas {
       );
     }
     const item = (this._items[varName] = objectTypes[type](varName));
-    this._withItemName = varName;
     item.domElement.innerHTML = `<title>${item.name}</title>`;
     this._svg.appendChild(item.domElement);
     this._publishInfo(`Created ${type} object called ${varName}`);
     return item;
   }
 
-  public clone(
-    fromVarName: string | null,
-    toVarName: string | null
-  ): iShape | null {
-    const fromItem = this.getItem(fromVarName || String(this.getWith()));
+  public clone(fromVarName: string, toVarName: string): iShape | null {
+    const fromItem = this.getItem(fromVarName);
     if (fromItem) {
       toVarName = toVarName || generateName();
       const toItem = this.createItem(toVarName, fromItem.type);
@@ -104,7 +99,6 @@ export class Canvas {
         toItem.setPoints(points);
         toItem.fill = fromItem.fill;
         toItem.setStroke(fromItem.stroke.color, fromItem.stroke.width);
-        this._withItemName = toVarName;
         this._svg.appendChild(toItem.domElement);
         this._publishInfo(`Cloned ${fromVarName} as ${toVarName}`);
         return toItem;
@@ -113,8 +107,7 @@ export class Canvas {
     return null;
   }
 
-  public remove(varName: string | null) {
-    varName = varName || String(this.getWith());
+  public remove(varName: string) {
     const item = this.getItem(varName);
     if (item) {
       item.remove();
@@ -125,32 +118,27 @@ export class Canvas {
     return this._publishError(`There was no object called ${varName}`);
   }
 
-  public paint(varName: string | null, color: string): iShape | null {
-    varName = varName || String(this.getWith());
+  public paint(varName: string, color: string): iShape | null {
     const item = this.getItem(varName);
     if (item) {
       item.fill = color;
-      this._withItemName = varName;
       this._publishInfo(`Painting ${varName} ${color}`);
       return item;
     }
     return null;
   }
 
-  public setFontSize(varName: string | null, size: number): iShape | null {
-    varName = varName || String(this.getWith());
+  public setFontSize(varName: string, size: number): iShape | null {
     const item = this.getItem(varName);
     if (item) {
       item.fontSize = `${size}pt`;
-      this._withItemName = varName;
       this._publishInfo(`Sizing ${varName} to ${size}pt`);
       return item;
     }
     return null;
   }
 
-  public write(varName: string | null, text: string): iShape | null {
-    varName = varName || String(this.getWith());
+  public write(varName: string, text: string): iShape | null {
     const item = this.getItem(varName);
     if (item) {
       item.text = text;
@@ -161,11 +149,10 @@ export class Canvas {
   }
 
   public setStroke(
-    varName: string | null,
-    color: string | null,
-    width: number | null
+    varName: string,
+    color: string,
+    width: number
   ): iShape | null {
-    varName = varName || String(this.getWith());
     const item = this.getItem(varName);
     if (item) {
       item.setStroke(color, width);
@@ -177,16 +164,9 @@ export class Canvas {
     return null;
   }
 
-  public moveTo(
-    varName: string | null,
-    x: number | null,
-    y: number | null
-  ): iShape | null {
-    varName = varName || String(this.getWith());
+  public moveTo(varName: string, x: number, y: number): iShape | null {
     const item = this.getItem(varName);
     if (item) {
-      x = typeof x == "undefined" ? null : x;
-      y = typeof y == "undefined" ? null : y;
       item.moveTo(x, y);
       this._publishInfo(`Moved ${varName} to ${item.x},${item.y}`);
       return item;
@@ -194,32 +174,18 @@ export class Canvas {
     return null;
   }
 
-  public moveBy(
-    varName: string | null,
-    x: number | null,
-    y: number | null
-  ): iShape | null {
-    varName = varName || String(this.getWith());
+  public moveBy(varName: string, x: number, y: number): iShape | null {
     const item = this.getItem(varName);
     if (item) {
-      x = typeof x == "undefined" ? null : x;
-      y = typeof y == "undefined" ? null : y;
       item.moveBy(x, y);
       this._publishInfo(`Moved ${varName} to ${item.x},${item.y}`);
     }
     return null;
   }
 
-  public sizeTo(
-    varName: string | null,
-    x: number | null,
-    y: number | null
-  ): iShape | null {
-    varName = varName || String(this.getWith());
+  public sizeTo(varName: string, x: number, y: number): iShape | null {
     const item = this.getItem(varName);
     if (item) {
-      x = typeof x == "undefined" ? null : x;
-      y = typeof y == "undefined" ? null : y;
       item.sizeTo(x, y);
       this._publishInfo(`Sized ${varName} to ${item.width},${item.height}`);
       return item;
@@ -227,16 +193,9 @@ export class Canvas {
     return null;
   }
 
-  public sizeBy(
-    varName: string | null,
-    x: number | null,
-    y: number | null
-  ): iShape | null {
-    varName = varName || String(this.getWith());
+  public sizeBy(varName: string, x: number, y: number): iShape | null {
     const item = this.getItem(varName);
     if (item) {
-      x = typeof x == "undefined" ? null : x;
-      y = typeof y == "undefined" ? null : y;
       item.sizeBy(x, y);
       this._publishInfo(`Sized ${varName} to ${item.width},${item.height}`);
       return item;
@@ -244,8 +203,7 @@ export class Canvas {
     return null;
   }
 
-  public setPoints(varName: string | null, points: string[]): iShape | null {
-    varName = varName || String(this.getWith());
+  public setPoints(varName: string, points: string[]): iShape | null {
     const item = this.getItem(varName);
     if (item) {
       let arrPoints: Point[] = [];
@@ -269,21 +227,6 @@ export class Canvas {
       clearInterval(timer);
     });
     this._timers = [];
-    this._withItemName = null;
-  }
-
-  public getWith(): string | null {
-    return this._withItemName;
-  }
-
-  public setWith(varName: string): iShape | null {
-    const item = this.getItem(varName);
-    if (item) {
-      this._withItemName = varName;
-      this._publishInfo(`Set currently selected object as ${varName}`);
-      return item;
-    }
-    return null;
   }
 
   public wait(n: number, unitName: string = "milliseconds"): Promise<void> {

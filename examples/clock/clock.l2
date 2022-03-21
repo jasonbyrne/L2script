@@ -2,13 +2,13 @@ string bgColor = black
 string clockColor = red
 number updateDelay = 1
 object background = new rectangle
-  paint %bgColor
+  paint %bgColor%
   size to 450, 180
 object clock = new text
-  write %TIME
-  paint %clockColor
-  move to 100, 100
+  write %TIME_WITH_SECONDS%
+  paint %clockColor%
+  move to 75, 100
   fontSize 50
-wait %updateDelay seconds
-write clock %TIME
+wait %updateDelay% seconds
+write clock %TIME_WITH_SECONDS%
 goto line 12

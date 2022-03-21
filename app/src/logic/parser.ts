@@ -279,7 +279,7 @@ export class Parser {
   private replaceNumberVariables(line: string): string {
     Object.entries(this.numbers).forEach((variable) => {
       line = line.replace(
-        new RegExp(`%${variable[0]}`, "g"),
+        new RegExp(`%${variable[0]}%`, "g"),
         String(variable[1])
       );
     });
@@ -288,15 +288,16 @@ export class Parser {
 
   private replaceStringVariables(line: string): string {
     Object.entries(this.strings).forEach((variable) => {
-      line = line.replace(new RegExp(`%${variable[0]}`, "g"), variable[1]);
+      line = line.replace(new RegExp(`%${variable[0]}%`, "g"), variable[1]);
     });
     return line;
   }
 
   private replaceSystemVariables(line: string): string {
-    line = line.replace(/%TIME/g, formatAMPM(new Date()));
+    line = line.replace(/%TIME%/g, formatAMPM(new Date()));
+    line = line.replace(/%TIME_WITH_SECONDS%/g, formatAMPM(new Date(), true));
     line = line.replace(
-      /%DATE/g,
+      /%DATE%/g,
       new Date().toLocaleDateString("en-us", {
         weekday: "long",
         year: "numeric",

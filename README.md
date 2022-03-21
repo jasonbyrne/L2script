@@ -207,7 +207,7 @@ string bgColor = blue
 You can later use this value in another line with the `%` character
 
 ```
-paint box %bgColor
+paint box %bgColor%
 ```
 
 ### System Variables
@@ -219,7 +219,7 @@ There are certain variables that are pre-programmed that you can use out of the 
 
 ```
 with clock
-  write %TIME
+  write %TIME%
 ```
 
 ### Print

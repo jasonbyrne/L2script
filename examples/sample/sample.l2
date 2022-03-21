@@ -1,21 +1,21 @@
-new rectangle as background
+object background = new rectangle
   size to 640,480
   paint blue
-new circle as sun
+object sun = new circle
   paint orange
   outline black 5
   size to 200,200
   move to -60,-60
-new circle as foo
+object foo = new circle
   paint yellow
   size to 100,50
   move by 400,100
-new rect as ground
+object ground = new rectangle
   paint green
   outline gray
   move to 0,350
   size to 1000,150
-new text as title
+object title = new text
   write Ansley, I love you!!!
   paint white
   move by 100,100
@@ -24,8 +24,7 @@ wait 1 second
 wait 1 second
   move by 140,140
 wait 1 second
-new text as melinda
+object melinda = new text
   write You too, Melinda Pie.
   paint red
   move to 200,200
-

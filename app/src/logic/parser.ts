@@ -1,19 +1,35 @@
 import { Canvas } from "../canvas";
-import { forEachPromise, formatAMPM } from "../util";
-
-export type WithElement = string | null;
+import { iShape } from "../components/shape";
+import { formatAMPM } from "../util";
 
 interface iLanguagePattern {
   pattern: RegExp;
   action: Function;
-  getWith?: Function;
+  getContext?: Function;
 }
 
 interface MatchedCommand {
   command: iLanguagePattern;
-  withElement: WithElement;
+  context: Context;
   matches: RegExpMatchArray;
 }
+
+interface WithContext {
+  type: "with";
+  value: string;
+}
+
+interface IfContext {
+  type: "if";
+  value: boolean;
+}
+
+interface NullContext {
+  type: "null";
+  value: null;
+}
+
+type Context = WithContext | IfContext | NullContext;
 
 export class Parser {
   constructor(
@@ -23,11 +39,34 @@ export class Parser {
     this.canvas.reset();
   }
 
-  private lastWith: WithElement = null;
+  private lastContext: Context = this.nullContext();
   private lines: string[] = [];
-  private variables: { [key: string]: string } = {};
+  private strings: { [key: string]: string } = {};
+  private numbers: { [key: string]: number } = {};
+  private objects: { [key: string]: iShape } = {};
   private lineNumber: number | null = 0;
   private marker: { [key: string]: number } = {};
+
+  private withContext(element: string): WithContext {
+    return {
+      type: "with",
+      value: element,
+    };
+  }
+
+  private nullContext(): NullContext {
+    return {
+      type: "null",
+      value: null,
+    };
+  }
+
+  private IfContext(value: boolean): IfContext {
+    return {
+      type: "if",
+      value: value,
+    };
+  }
 
   private syntax: iLanguagePattern[] = [
     {
@@ -41,39 +80,47 @@ export class Parser {
       },
     },
     {
-      pattern: /^wait ([0-9]+) ?([a-z]+)?$/i,
+      pattern: /^wait ([0-9]+) ([a-z]+)?$/i,
       action: (timeout: number, units: string) => {
         return this.canvas.wait(timeout, units);
       },
     },
     {
-      pattern: /^string ([a-z][a-z0-9]*) ?(=) ?([a-z0-9]+)$/i,
+      pattern: /^string ([a-z][a-z0-9]*) (=) ([a-z0-9]+)$/i,
       action: (name: string, op: string, value: string) => {
-        this.variables[name] = value;
+        this.strings[name] = value;
+      },
+    },
+    {
+      pattern: /^number ([a-z][a-z0-9]*) (=) ([0-9]+) + ([0-9]+)$/i,
+      action: (name: string, op: string, valueA: number, valueB: number) => {
+        this.numbers[name] = Number(valueA) + Number(valueB);
+      },
+    },
+    {
+      pattern: /^number ([a-z][a-z0-9]*) ?(=) ?([0-9]+)$/i,
+      action: (name: string, op: string, value: number) => {
+        this.numbers[name] = Number(value);
       },
     },
     {
       pattern: /^object ([a-z][a-z0-9]*) ?(=) ?new ([a-z][a-z0-9]*)$/i,
       action: (name: string, op: string, type: string) => {
-        this.canvas.createItem(name, type);
+        const shape = this.canvas.createItem(name, type);
+        if (shape) this.objects[name] = shape;
       },
-      getWith: (name: string, op: string, type: string) => {
-        return name;
+      getContext: (name: string) => {
+        return this.withContext(name);
       },
     },
     {
       pattern: /^object ([a-z][a-z0-9]*) ?(=) ?clone ([a-z][a-z0-9]*)$/i,
       action: (toName: string, op: string, fromName: string) => {
-        this.canvas.clone(fromName, toName || null);
+        const shape = this.canvas.clone(fromName, toName || null);
+        if (shape) this.objects[toName] = shape;
       },
-      getWith: (toName: string, op: string, fromName: string) => {
-        return toName;
-      },
-    },
-    {
-      pattern: /^set ([a-z]+) (=)? ?([a-z0-9]+)$/i,
-      action: (name: string, op: string, value: string) => {
-        this.variables[name] = value;
+      getContext: (toName: string) => {
+        return this.withContext(toName);
       },
     },
     {
@@ -95,30 +142,14 @@ export class Parser {
       },
     },
     {
-      pattern: /^new ([a-z]+) (as)? ?([a-z][a-z0-9]*)$/i,
-      action: (type: string, op: string, name: string) => {
-        this.canvas.createItem(name || null, type);
-      },
-      getWith: (type: string, op: string, name: string) => {
-        return name;
-      },
-    },
-    {
-      pattern: /^clone ([a-z]+) (as)? ?([a-z][a-z0-9]*)$/i,
-      action: (fromName: string, op: string, toName: string) => {
-        this.canvas.clone(fromName, toName || null);
-      },
-      getWith: (fromName: string, op: string, toName: string) => {
-        return toName;
-      },
-    },
-    {
       pattern: /^with ([a-z][a-z0-9]*)$/i,
       action: (name: string) => {
+        // TODO: is this next line needed anymore?
         this.canvas.setWith(name);
+        return this.withContext(name);
       },
-      getWith: (name: string) => {
-        return name;
+      getContext: (name: string) => {
+        return this.withContext(name);
       },
     },
     {
@@ -128,27 +159,27 @@ export class Parser {
       },
     },
     {
-      pattern: /^move ([a-z][a-z0-9]*) (by|to)? ?(-?[0-9]+)?,(-?[0-9]+)?$/i,
+      pattern: /^move ([a-z][a-z0-9]*) (by|to) (-?[0-9]+), ?(-?[0-9]+)$/i,
       action: (name: string, op: string, x: number, y: number) => {
         if (op == "by") {
           return this.canvas.moveBy(name, x, y);
         }
         return this.canvas.moveTo(name, x, y);
       },
-      getWith: (name: string) => {
-        return name;
+      getContext: (name: string) => {
+        return this.withContext(name);
       },
     },
     {
-      pattern: /^size ([a-z][a-z0-9]*) (by|to)? ?(-?[0-9]+)?,(-?[0-9]+)?$/i,
+      pattern: /^size ([a-z][a-z0-9]*) (by|to) (-?[0-9]+), ?(-?[0-9]+)$/i,
       action: (name: string, op: string, x: number, y: number) => {
         if (op == "by") {
           return this.canvas.sizeBy(name, x, y);
         }
         return this.canvas.sizeTo(name, x, y);
       },
-      getWith: (name: string) => {
-        return name;
+      getContext: (name: string) => {
+        return this.withContext(name);
       },
     },
     {
@@ -156,18 +187,17 @@ export class Parser {
       action: (name: string, color: string) => {
         this.canvas.paint(name, color);
       },
-      getWith: (name: string) => {
-        return name;
+      getContext: (name: string) => {
+        return this.withContext(name);
       },
     },
     {
-      pattern:
-        /^outline ([a-z][a-z0-9]*) ([a-z]+|#[a-f0-9]{3,9})? ?([0-9]+)?$/i,
+      pattern: /^outline ([a-z][a-z0-9]*) ([a-z]+|#[a-f0-9]{3,9}) ?([0-9]+)?$/i,
       action: (name: string, color: string, thickness: number) => {
         this.canvas.setStroke(name, color, thickness);
       },
-      getWith: (name: string) => {
-        return name;
+      getContext: (name: string) => {
+        return this.withContext(name);
       },
     },
     {
@@ -175,8 +205,8 @@ export class Parser {
       action: (name: string, str: string) => {
         this.canvas.write(name, str);
       },
-      getWith: (name: string) => {
-        return name;
+      getContext: (name: string) => {
+        return this.withContext(name);
       },
     },
     {
@@ -184,8 +214,8 @@ export class Parser {
       action: (name: string, size: number) => {
         this.canvas.setFontSize(name, size);
       },
-      getWith: (name: string) => {
-        return name;
+      getContext: (name: string) => {
+        return this.withContext(name);
       },
     },
     {
@@ -194,12 +224,16 @@ export class Parser {
         // this is not ideal
         this.canvas.setPoints(name, points.split(" "));
       },
+      getContext: (name: string) => {
+        return this.withContext(name);
+      },
     },
     {
       pattern: /^print (.+)$/i,
       action: (str: string) => {
         str = this.replaceSystemVariables(str);
-        str = this.replaceUserVariables(str);
+        str = this.replaceStringVariables(str);
+        str = this.replaceNumberVariables(str);
         this.log(str);
       },
     },
@@ -210,13 +244,13 @@ export class Parser {
     this.syntax.some((command) => {
       const matches = line.match(command.pattern);
       if (matches !== null) {
-        const withElement: WithElement =
-          command.getWith &&
-          command.getWith.apply(this.canvas, matches.slice(1));
+        const context: Context | undefined =
+          command.getContext &&
+          command.getContext.apply(this.canvas, matches.slice(1));
         output = {
           matches,
           command,
-          withElement,
+          context: context || this.lastContext,
         };
         return true;
       }
@@ -233,27 +267,38 @@ export class Parser {
 
   private replaceShorthandWith(line: string): string {
     // If it starts with spaces, add in the with name
-    if (/^ +/.test(line) && this.lastWith !== null) {
+    if (/^ +/.test(line) && this.lastContext.type == "with") {
       line = (() => {
         let arr: string[] = line.trim().split(" ");
-        arr.splice(1, 0, this.lastWith);
+        arr.splice(1, 0, this.lastContext.value);
         return arr.join(" ");
       })();
     }
+    console.log(line);
     return line;
   }
 
-  private replaceUserVariables(line: string): string {
-    Object.entries(this.variables).forEach((variable) => {
-      line = line.replace(`%${variable[0]}`, variable[1]);
+  private replaceNumberVariables(line: string): string {
+    Object.entries(this.numbers).forEach((variable) => {
+      line = line.replace(
+        new RegExp(`%${variable[0]}`, "g"),
+        String(variable[1])
+      );
+    });
+    return line;
+  }
+
+  private replaceStringVariables(line: string): string {
+    Object.entries(this.strings).forEach((variable) => {
+      line = line.replace(new RegExp(`%${variable[0]}`, "g"), variable[1]);
     });
     return line;
   }
 
   private replaceSystemVariables(line: string): string {
-    line = line.replace("%TIME", formatAMPM(new Date()));
+    line = line.replace(/%TIME/g, formatAMPM(new Date()));
     line = line.replace(
-      "%DATE",
+      /%DATE/g,
       new Date().toLocaleDateString("en-us", {
         weekday: "long",
         year: "numeric",
@@ -270,8 +315,8 @@ export class Parser {
       line = this.cleanLine(line);
       line = this.replaceShorthandWith(line);
       const command = this.getCommand(line);
-      if (command && command.withElement) {
-        this.lastWith = command.withElement;
+      if (command && command.context) {
+        this.lastContext = command.context;
       }
       return line;
     });
@@ -284,7 +329,8 @@ export class Parser {
     for (; this.lineNumber <= length; ) {
       let line = this.lines[this.lineNumber - 1];
       line = this.replaceSystemVariables(line);
-      line = this.replaceUserVariables(line);
+      line = this.replaceStringVariables(line);
+      line = this.replaceNumberVariables(line);
       // Ignore blank lines
       if (line.length) {
         // Echo line

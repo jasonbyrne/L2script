@@ -286,8 +286,8 @@ export class Canvas {
     return null;
   }
 
-  public wait(n: number, unitName: string = "millisecond"): Promise<void> {
-    let units: string = "millisecond";
+  public wait(n: number, unitName: string = "milliseconds"): Promise<void> {
+    let units: string = "milliseconds";
     const factor: number = (() => {
       if (/^(seconds?|sec|s)$/i.test(unitName)) {
         units = "second";

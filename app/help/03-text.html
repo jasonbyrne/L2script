@@ -1,0 +1,51 @@
+<html>
+  <head>
+    <title>L2 Creating Shapes</title>
+    <link rel="stylesheet" href="help.css" />
+  </head>
+  <body>
+    <h1>Adding Text</h1>
+    <p>
+      Creating a text box isn't that different from a shape, we declare it as an
+      object.
+    </p>
+    <pre>
+        object title = new text
+    </pre>
+    <p>
+      But a text object doesn't do anything until we write the actual text. For
+      that we use the <code>write</code> method.
+    </p>
+    <pre>
+        object title = new text
+        &nbsp; write My Pretty Picture
+    </pre>
+    <p>
+      We can position it and paint it a different color (black is the defualt
+      color).
+    </p>
+    <pre>
+        object title = new text
+        &nbsp; write My Pretty Picture
+        &nbsp; paint white
+        &nbsp; move to 200, 10
+    </pre>
+    <h3>fontSize</h3>
+    <p>
+      Next we may want to make the text larger. For this, we use the
+      <code>fontSize</code> command.
+    </p>
+    <pre>
+        object title = new text
+        &nbsp; write My Pretty Picture
+        &nbsp; paint white
+        &nbsp; move to 200, 10
+        &nbsp; <b>fontSize 20</b>
+    </pre>
+    <hr />
+    <ul>
+      <li>Prev: <a href="02-shapes.html">&lt; Creating Shapes</a></li>
+    </ul>
+    <em>More to come!</em>
+  </body>
+</html>

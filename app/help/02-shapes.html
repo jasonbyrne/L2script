@@ -1,0 +1,115 @@
+<html>
+  <head>
+    <title>L2 Creating Shapes</title>
+    <link rel="stylesheet" href="help.css" />
+  </head>
+  <body>
+    <h1>Creating Shapes in L2</h1>
+    <h2>Adding a background</h2>
+    <p>
+      If you've been following along, you may have noticed that creating a shape
+      alone doesn't do very much. Now we have to give it some properties. So
+      let's give our L2 app a background.
+    </p>
+    <h3>size... to</h3>
+    <p>
+      So, first, we create the background and assign it a size. The default
+      width of an L2 canvas is a 640x640 square. So let's make our background
+      object fill the entire space
+    </p>
+    <pre>
+        object background = new rectangle
+        size background to 640, 640
+    </pre>
+    <p>
+      So here we used the <code>size</code> method, then gave it the name of the
+      object we wanted to size, the keyword <code>to</code> means we want to set
+      it to exactly 640 wide and 640 high.
+    </p>
+    <h3>paint</h3>
+    <p>
+      Maybe we don't want a black background (which is the default color). Let's
+      paint that object a different color.
+    </p>
+    <pre>
+        object background = new rectangle
+        size background to 640, 640
+        <b>paint background blue</b>
+    </pre>
+    <p>We should now see our background blue!</p>
+    <h2>Creating a circle</h2>
+    <p>
+      Creating a cricle (or any other shape) is not much different than the
+      rectangle we used for the background. So let's add it, size it, and paint
+      it.
+    </p>
+    <pre>
+        object sun = new circle
+        size sun to 150, 150
+        paint sun orange
+    </pre>
+    <h3>move... to</h3>
+    <p>
+      Cool! We've got our sun, but maybe we don't want it at the top left. Its
+      default location is <code>0, 0</code>. When we position an object in L2,
+      we are using x/y coordinates like that Pre-Algebra class we mentioned
+      earlier. However, the origin is the top-left corner. Our x value goes to
+      the right like we would expect, but our y coordinate is moving us down
+      from the top. So <code>50, 70</code>, for example, would be 50 pixels from
+      the left and then 70 down from the top.
+    </p>
+    <p>So let's position that sun.</p>
+    <pre>
+        object sun = new circle
+        size sun to 150, 150
+        paint sun orange
+        <b>move sun to 50, 70</b>
+    </pre>
+    <p>
+      We can also set negative values for our object, so that it can appear
+      partially (or even fully) off screen. So let's move our sun to be only
+      partly in the picture.
+    </p>
+    <pre>
+        object sun = new circle
+        size sun to 150, 150
+        paint sun orange
+        <b>move sun to -40, -50</b>
+    </pre>
+    <h2>Cut down on repetition</h2>
+    <p>
+      It may not have bothered you yet, but (after a while) repeating the
+      variable name over and over can get quite old. We can avoid this
+      repetition in one of two ways.
+    </p>
+    <h3>On creation of the object</h3>
+    <p>
+      By indenting after we create our object, we tell L2 that our command
+      should take action on the previously created object. Then we can skip
+      typing <code>sun</code> again.
+    </p>
+    <pre>
+        object sun = new circle
+        &nbsp; size to 150, 150
+        &nbsp; paint orange
+        &nbsp; move to -40, -50
+    </pre>
+    <h3>with</h3>
+    <p>
+      Alternately, we can use the <code>with</code> command to tell L2 that the
+      following lines will relate to that object. We use our intent again to
+      indicate this.
+    </p>
+    <pre>
+        with sun
+        &nbsp; size to 150, 150
+        &nbsp; paint orange
+        &nbsp; move to -40, -50
+    </pre>
+    <hr />
+    <ul>
+      <li>Next: <a href="03-text.html">Adding Text &gt;</a></li>
+      <li>Prev: <a href="01-basics.html">&lt; The Basics</a></li>
+    </ul>
+  </body>
+</html>

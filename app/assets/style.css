@@ -211,3 +211,7 @@
   height: 100%;
   border: none;
 }
+
+svg {
+  dominant-baseline: hanging;
+}

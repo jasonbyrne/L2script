@@ -1,0 +1,70 @@
+<html>
+  <head>
+    <title>L2 Basics</title>
+    <link rel="stylesheet" href="help.css" />
+  </head>
+  <body>
+    <h1>Basic Concepts of L2</h1>
+    <a href="index.html">&lt; About L2</a>
+    <h2>Variables</h2>
+    <p>
+      In programming, a variable is just a value to which you assign a name.
+      It's no different than in Pre-Algebra. You can name the variable anything
+      you want, but it should usually be a word that explains what it represents
+      (instead of using x or y like in math class).
+    </p>
+    <p>
+      With L2 you will define each variable by declaring its type, which L2
+      currently supports three: string, number, or object.
+    </p>
+    <h3>Strings</h3>
+    <p>
+      A string is just a line of text that can be letters, numbers, and other
+      symbols. It can be a word or multiple words. One way we might use a string
+      variable is to set a color that we want to paint something on the screen.
+      That variable can be reused multiple times, and you only have to change
+      the place where the value is set.
+    </p>
+    <p>It's very simple:</p>
+    <pre>
+        string eyeColor = blue 
+        string hairColor = brown 
+    </pre>
+    <p>Now have two string variables that we can use later in our L2 app.</p>
+    <h3>Numbers</h3>
+    <p>
+      This is very similar to a string type, except (as you might guess) it is
+      designed to contain numbers. So you might use this to store the size or
+      position of certain elements, for example.
+    </p>
+    <pre>
+        number eyeWidth = 20
+        number eyeHeight = 15
+    </pre>
+    <h3>Objects</h3>
+    <p>
+      Now this is where the power comes in! Objects in L2 are the on-screen
+      display. You use objects to create shapes, display text, and other
+      elements.
+    </p>
+    <p>There are five types of objects currently supported:</p>
+    <ul>
+      <li>rectangle - Four-sided rectangle/square shape</li>
+      <li>circle - Round shape, it can be an oval or oblonged circle</li>
+      <li>line - A straight line with a given start and end point</li>
+      <li>polygon - A shape of any number of points</li>
+      <li>text - A box that you can write text into</li>
+    </ul>
+    <p>Examples:</p>
+    <pre>
+        object background = new rectangle
+        object head = new circle
+        object title = new text
+    </pre>
+    <hr />
+    <ul>
+      <li>Next: <a href="02-shapes.html">Creating Shapes &gt;</a></li>
+      <li>Prev: <a href="index.html">&lt; About L2</a></li>
+    </ul>
+  </body>
+</html>
